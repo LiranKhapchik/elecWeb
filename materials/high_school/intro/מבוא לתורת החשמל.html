@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מבוא לתורת החשמל | לירן חפצ'יק</title>
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #3776AB;
+            --secondary-color: #FFD43B;
+            --dark-color: #303030;
+            --light-color: #f4f4f4;
+            --danger-color: #d9534f;
+            --accent-green: #009B77;
+            --font-family: 'Arial', sans-serif;
+        }
+        body {
+            font-family: var(--font-family); margin: 0; padding: 0; line-height: 1.5; /* הגדלת ריווח שורות לקריאות */
+            background-color: var(--light-color); color: var(--dark-color); position: relative;
+            overflow-x: hidden; user-select: none; -webkit-user-select: none;
+            -moz-user-select: none; -ms-user-select: none;
+        }
+        p { margin-bottom: 3px; /* ריווח גדול יותר לפסקאות */ }
+        .copyright{ color: white; font-size: 12px; text-align: right; margin-right: 15%; padding-bottom: 0%; }
+        .container { max-width: 1100px; /* רוחב מותאם למאמר */ margin: auto; overflow: hidden; padding: 0 20px; }
+        .dynamic-watermark { position: fixed; font-size: 2.5vw; color: #000000; opacity: 0; pointer-events: none; z-index: 9999; white-space: nowrap; transition: opacity 0.5s ease-in-out; animation: fadeInOut 2.5s ease-in-out; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 0.07; } 80% { opacity: 0.07; } 100% { opacity: 0; } }
+        header { background: var(--dark-color); color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 900; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        header h1 { margin: 0; font-size: 24px; }
+        header h1 a { color: #fff; text-decoration: none; }
+        nav ul { padding: 0; margin: 0; list-style: none; display: flex; }
+        nav ul li a { color: #fff; text-decoration: none; padding: 0.5rem 1rem; transition: background-color 0.3s; cursor: pointer; }
+        nav ul li a:hover, nav ul li a.active { background-color: var(--primary-color); border-radius: 5px; }
+        main { padding: 2rem 0; }
+        .page-content { display: none; animation: fadeIn 0.5s; }
+        .page-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px; margin-top: 20px; }
+        h3 { color: var(--primary-color); margin-top: 30px; margin-bottom: 15px; }
+        h4 { margin-bottom: 10px; color: var(--dark-color); }
+        .card { background: #fff; padding: 25px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; transition: background-color 0.3s; }
+        .btn:hover { background: #2c608a; }
+        footer { background: var(--dark-color); color: #fff; text-align: center; padding: 1rem 0; margin-top: 2rem; }
+        .notification-banner { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--danger-color); color: white; padding: 12px 25px; border-radius: 8px; z-index: 10000; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out; }
+        .notification-banner.show { bottom: 20px; }
+        @media print { body * { display: none !important; } body::before { content: "הדפסת תוכן זה אינה מורשית."; color: #000; display: block; text-align: center; font-size: 24px; padding: 50px; } }
+        @media (max-width: 1080px) { header .container { flex-direction: column; } nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 5px; } nav ul li a { padding: 0.4rem 0.8rem; } }
+
+        /* --- סגנונות חדשים לתבנית המאמר --- */
+        .idea-box { background-color: #e7f1fa; border-right: 4px solid var(--primary-color); padding: 15px 20px; margin: 25px 0; border-radius: 0 8px 8px 0; }
+        .idea-box p { margin: 0; }
+        .article-image { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; background: #fff; }
+        figure { margin: 25px 0; text-align: center;}
+        figcaption { margin-top: 8px; font-size: 14px; color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><a href="../../../index.html#home" class="nav-link"> לירן חפצ'יק | אלקטרוניקה ומחשבים </a></h1>
+            <nav>
+                <ul>
+                    <li><a href="../../../index.html#home" class="nav-link">דף הבית</a></li>
+                    <li><a href="../../../index.html#about" class="nav-link">אודות</a></li>
+                    <li><a href="../../../index.html#tips" class="nav-link">טיפים ללמידה</a></li>
+                    <li><a href="../../../index.html#materials" class="nav-link active">חומרי לימוד</a></li>
+                    <li><a href="../../../index.html#projects" class="nav-link">פרויקטים</a></li>
+                    <li><a href="../../../index.html#exams" class="nav-link">מבחנים</a></li>
+                    <li><a href="../../../index.html#contact" class="nav-link">צור קשר</a></li>
+                </ul>
+            </nav>
+        </div>
+         <div class="copyright">
+            <p>כל הזכויות שמורות © 2025</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="article-content" class="page-content active">
+             
+                <h2>מבוא לתורת החשמל ⚡</h2>
+    <div class="card">
+                <h3>מטרות הקורס</h3>
+                <ul>
+                    <li>הקניית הבנה בסיסית של עקרונות חשמליים.</li>
+                    <li>הכרת גדלים פיזיקליים בסיסיים.</li>
+                    <li>חישוב וניתוח מעגלים חשמליים פשוטים.</li>
+                </ul>
+                <hr>
+                <h3>מושגי יסוד בכימיה הרלוונטיים לחשמל</h3>
+                <h4>מבנה האטום</h4>
+                <p>האטום, יחידת הבסיס של כל חומר, מורכב משלושה חלקיקים עיקריים:</p>
+                <ul>
+                    <li><strong>אלקטרונים</strong> (בעלי מטען חשמלי שלילי)</li>
+                    <li><strong>פרוטונים</strong> (בעלי מטען חשמלי חיובי)</li>
+                    <li><strong>ניוטרונים</strong> (חסרי מטען חשמלי / ניטרליים)</li>
+                </ul>
+                <div class="idea-box">
+                <p><strong>יציבות חשמלית</strong> במצב טבעי מושגת כאשר מספר האלקטרונים באטום שווה למספר הפרוטונים.</p>
+                </div>
+                <hr>
+                <h3>הטבלה המחזורית והולכה חשמלית</h3>
+                <p>הכימאי דמיטרי מנדלייב גילה קשר ישיר בין מספר האלקטרונים ברמה החיצונית של יסוד לבין תכונותיו החשמליות. תכונות אלו קובעות אם החומר יהיה מוליך, מבודד או מוליך למחצה.</p>
+
+                <div class="idea-box">
+                <p>
+                    בעצם מנדלייב גילה מהסתכלות על מבנה היסודות שהיסודות מתנהגים בצורה דומה כאשר יש להם מספר אלקטרונים דומה.
+                </p>
+                </div>
+
+                <ul>
+                    <li><strong>מתכות:</strong> בעלות 1-4 אלקטרונים חיצוניים. אלקטרונים אלו חופשיים יחסית ולכן מתכות הן <strong>מוליכות</strong> חשמל טובות.</li>
+                    <li><strong>אל-מתכות:</strong> בעלות 5-7 אלקטרונים חיצוניים. הן נוטות "ללכוד" אלקטרונים ולכן נחשבות <strong>למבודדים</strong>.</li>
+                    <li><strong>גזים אצילים:</strong> בעלי 8 אלקטרונים חיצוניים. רמה זו נחשבת מלאה ויציבה, ולכן הם אינם מגיבים כימית.</li>
+                </ul>
+                <hr>
+                <h3>מושגים בסיסיים בחשמל</h3>
+                <h4>פוטנציאל חשמלי (מתח)</h4>
+                <p>אנרגיה פוטנציאלית הנובעת מהפרש במטען חשמלי. ההפרש בין ערכי הפוטנציאל בשתי נקודות שונות נקרא <strong>מתח חשמלי</strong> ונמדד ביחידות <strong>וולט [V]</strong>.</p>
+                
+                <h4>זרם חשמלי (I)</h4>
+                <p>תנועה מכוונת של אלקטרונים במוליך. באופן מוסכם, כיוון הזרם מוגדר מהפלוס למינוס, למרות שהאלקטרונים עצמם נעים בכיוון ההפוך. זרם נמדד ביחידות <strong>אמפר [A]</strong>.</p>
+
+                <h4>התנגדות חשמלית (R)</h4>
+                <p>היכולת של חומר להתנגד לזרימת זרם חשמלי. היא נמדדת ביחידות <strong>אוהם [Ω]</strong>. ככל שההתנגדות גבוהה יותר, הזרם שיזרום באותו מתח יהיה קטן יותר (יחס הפוך).</p>
+                <hr>
+                <h3>חוק אוהם</h3>
+                <p>חוק אוהם הוא חוק יסוד פיזיקלי המתאר את הקשר בין שלושת הגדלים הבסיסיים שראינו: <strong>מתח (V)</strong>, <strong>זרם (I)</strong>, ו<strong>התנגדות (R)</strong>.</p>
+                
+                <div class="idea-box">
+                    <p style="text-align:center;"><strong> נוסחת חוק אוהם היסודית</strong></p>
+                    <p style="text-align:center; font-size: 1.5em; margin-top:10px;">$$ V = I \cdot R $$</p>
+                </div>
+                 <p>בעזרת שינוי נושא נוסחא ממנה אפשר לקבל את שני הביטויים הנוספים שלנו: </p>
+                    <p style="text-align:center; font-size: 1em;">  $  I = {V \over R} \qquad R = {V \over I} $</p>
+                
+                <hr>
+                <h3>המעגל החשמלי וסימולו</h3>
+                <p>מעגל חשמלי הוא מסלול סגור המכיל רכיבים חשמליים המחוברים ביניהם ומאפשרים זרימת זרם. מעגל בסיסי יכלול לרוב <strong>מקור מתח</strong> (כמו סוללה) ו<strong>צרכנים</strong> (כמו נגד או נורה).</p>
+
+                <figure>
+                     <img src="F:\תכנות\html\eleWebsite\web\materials\high_school\intro\sym.jpg" alt="סימולים של רכיבים במעגל חשמלי" class="article-image" style="max-width: 700px; display: block; margin-left:auto; margin-right:auto;">
+                     <figcaption>סימולים חשמליים נפוצים לרכיבי מעגל.</figcaption>
+                </figure>
+             </div>
+        </section>
+    </main>
+
+    <div id="notification-banner" class="notification-banner">פעולה זו אינה מורשית.</div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationBanner = document.getElementById('notification-banner');
+        let notificationTimeout;
+
+        function triggerWatermarks() {
+            const watermarkContainer = document.createElement('div');
+            watermarkContainer.style.position = 'fixed';
+            watermarkContainer.style.top = '0'; watermarkContainer.style.left = '0';
+            watermarkContainer.style.width = '100vw'; watermarkContainer.style.height = '100vh';
+            watermarkContainer.style.zIndex = '9999'; watermarkContainer.style.pointerEvents = 'none';
+            document.body.appendChild(watermarkContainer);
+            for (let i = 0; i < 15; i++) {
+                const watermark = document.createElement('div');
+                watermark.textContent = 'לירן חפציק';
+                watermark.classList.add('dynamic-watermark');
+                watermark.style.top = `${Math.random() * 100}vh`;
+                watermark.style.left = `${Math.random() * 100}vw`;
+                watermark.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 90 - 45}deg)`;
+                watermarkContainer.appendChild(watermark);
+            }
+            setTimeout(() => {
+                if (document.body.contains(watermarkContainer)) {
+                    document.body.removeChild(watermarkContainer);
+                }
+            }, 2500);
+        }
+
+        function showProtectionWarning() {
+            clearTimeout(notificationTimeout);
+            notificationBanner.classList.add('show');
+            notificationTimeout = setTimeout(() => {
+                notificationBanner.classList.remove('show');
+            }, 1500);
+            triggerWatermarks();
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showProtectionWarning();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const blockedCtrlKeys = ['KeyC', 'KeyA', 'KeyU', 'KeyS', 'KeyP', 'Keyk' ,'KeyV', 'KeyX'];
+            if (e.code === 'F12' || (e.ctrlKey && blockedCtrlKeys.includes(e.code)) || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')) {
+                e.preventDefault();
+                showProtectionWarning();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

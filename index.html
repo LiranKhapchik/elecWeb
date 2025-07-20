@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לירן חפצ'יק - אתר הלימודים</title>
+    <style>
+        /* CSS - עיצוב האתר */
+        :root {
+            --primary-color: #3776AB;
+            --secondary-color: #FFD43B;
+            --dark-color: #303030;
+            --light-color: #f4f4f4;
+            --danger-color: #d9534f;
+            --font-family: 'Arial', sans-serif;
+            --border-radius: 8px;
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            position: relative;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+        }
+
+        .copyright {
+            color: white;
+            font-size: 12px;
+            text-align: right;
+            margin-right: 15%;
+            padding-bottom: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+        }
+        
+        /* ---- סימן מים דינמי ----*/
+        .dynamic-watermark {
+            position: fixed;
+            font-size: 2.5vw;
+            color: #000000;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 9999;
+            white-space: nowrap;
+            animation: fadeInOut 2.5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            20% { opacity: 0.07; }
+            80% { opacity: 0.07; }
+            100% { opacity: 0; }
+        }
+
+        header {
+            background: var(--dark-color);
+            color: #fff;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        header h1 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        nav ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary-color);
+        }
+
+        main {
+            padding: 2rem 0;
+        }
+
+        .page-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* For grid alignment */
+            box-sizing: border-box;
+        }
+
+        /* ----- Homepage Grid Layout ----- */
+        .homepage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch; /* Makes columns same height */
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            text-align: center; /* Center content within info-grid items */
+        }
+        
+        .info-grid-item-full {
+            grid-column: 1 / -1;
+        }
+
+        .about-me-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .profile-pic-container {
+            flex-shrink: 0;
+            order: 2;
+        }
+
+        .profile-pic img {
+            width: 150px;
+            height: 150px;
+            border: 4px solid var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+        
+        .cv-content {
+            flex-grow: 1;
+            order: 1;
+        }
+
+        .cv-section { margin-top: 25px; }
+        .cv-section ul {
+            list-style-type: none;
+            padding-right: 20px;
+            margin: 0;
+        }
+        .cv-section li {
+            position: relative;
+            padding-right: 25px;
+            margin-bottom: 10px;
+        }
+        .cv-section li::before {
+            content: '✓';
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .subject-link-list { list-style: none; padding: 0; margin: 0; }
+        .subject-link-list li {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .subject-link-list li:last-child { border-bottom: none; }
+        .subject-link-list a.subject-link {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        .subject-link-list a.subject-link:hover { color: var(--primary-color); }
+        .subject-link-list .arrow { font-size: 1.2em; color: var(--primary-color); }
+        
+        .subject-list { list-style: none; padding: 0; }
+        .subject-list li {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .subject-list li:last-child { border-bottom: none; }
+        .subject-list .material-links a { margin-right: 10px; font-size: 14px; }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .btn:hover { background: #2c608a; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .btn-secondary { background: var(--secondary-color); color: var(--dark-color); }
+        .btn-secondary:hover { background: #e6c336; }
+        .btn-download {
+            font-size: 13px;
+            text-decoration: none;
+            color: var(--primary-color);
+            padding: 3px 8px;
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            transition: background-color 0.2s, color 0.2s;
+            margin-top: 5px;
+        }
+        .btn-download:hover { background-color: var(--primary-color); color: #fff; }
+
+        /* ----- Featured Articles Slider ----- */
+        .featured-articles-container { flex-grow: 1; position: relative; }
+        .featured-article { display: none; }
+        .featured-article.active { display: block; animation: fadeIn 0.5s; }
+        .article-nav {
+            margin-top: auto; /* Pushes to bottom */
+            padding-top: 20px; /* Space above nav */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .article-nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .article-nav-btn:hover { background-color: #2c608a; }
+        .article-dots { display: flex; gap: 8px; }
+        .article-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%; /* Ensure dots are perfectly round */
+            background-color: #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .article-dot.active { background-color: var(--primary-color); }
+
+        /* ----- Tips/Articles Page Tabs ----- */
+        .article-tab-container { margin-top: 20px; }
+        .article-tabs {
+            display: flex;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: -2px; /* Pulls content border up */
+        }
+        .article-select-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: 16px;
+            color: var(--dark-color);
+            margin-bottom: -2px;
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .article-select-btn:hover { color: var(--primary-color); }
+        .article-select-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            font-weight: bold;
+        }
+        .article-content-pane {
+            border-top-left-radius: 0; /* Connects to tabs */
+            border-top-right-radius: 0;
+            padding-top: 30px;
+        }
+        .article-content { display: none; }
+        .article-content.active { display: block; animation: fadeIn 0.5s; }
+
+
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: #fff;
+            text-align: center;
+            padding: 1rem 0;
+            margin-top: 2rem;
+        }
+        
+        .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        
+        @media (max-width: 1080px) {
+            header .container { flex-direction: column; }
+            .copyright { text-align: center; margin-right: 0; margin-top: 10px;}
+            nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 5px; }
+            nav ul li a { padding: 0.4rem 0.8rem; }
+            .tips-grid, .homepage-grid, .info-grid { grid-template-columns: 1fr; }
+            .about-me-container { flex-direction: column; align-items: center; text-align: center; }
+            .profile-pic-container { order: 1; margin-bottom: 20px; }
+            .cv-content { order: 2; }
+            .subject-list li { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .dynamic-watermark { font-size: 5vw; }
+        }
+
+        .notification-banner {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--danger-color);
+            color: white;
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            z-index: 10000;
+            font-size: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: bottom 0.5s ease-in-out;
+        }
+        .notification-banner.show { bottom: 20px; }
+
+        @media print {
+            body * { display: none !important; }
+            body::before {
+                content: "הדפסת תוכן זה אינה מורשית.";
+                color: #000;
+                display: block;
+                text-align: center;
+                font-size: 24px;
+                padding: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><a href="#home" class="nav-link"> לירן חפצ'יק | אלקטרוניקה ומחשבים </a></h1>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="nav-link active">דף הבית</a></li>
+                    <li><a href="#about" class="nav-link">אודות</a></li>
+                    <li><a href="#tips" class="nav-link">מאמרים וטיפים</a></li>
+                    <li><a href="#materials" class="nav-link">חומרי לימוד</a></li>
+                    <li><a href="#projects" class="nav-link">פרויקטים</a></li>
+                    <li><a href="#exams" class="nav-link">מבחנים</a></li>
+                    <li><a href="#contact" class="nav-link">צור קשר</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="copyright">
+            <p>כל הזכויות שמורות © 2025</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="home" class="page-content active">
+             <h2>ברוכים הבאים לאתר חומרי הלימוד שלי! 🖥️⚡</h2>
+             <div class="card" style="height: auto;">
+                 <p>שלום לכל התלמידים והסטודנטים! שמי <strong>לירן חפצ'יק</strong>, ואני מורה ומרצה בתחומי האלקטרוניקה והמחשבים. הקמתי את האתר הזה כדי לרכז עבורכם את כל חומרי הלימוד, תרגולים, מבחנים לדוגמה וטיפים שיעזרו לכם להצליח בלימודים.</p>
+                 <p>האתר מיועד הן לתלמידי תיכון במגמת אלקטרוניקה ומחשבים והן לסטודנטים במסלולי הנדסאים וטכנאים. אני מאמין שבעזרת הכלים והחומרים באתר, תוכלו להעמיק את הבנתכם, לשפר את כישוריכם ולהגיע להישגים גבוהים.</p>
+                 <div class="homepage-buttons">
+                    <a href="#materials" class="btn nav-link">התחל ללמוד</a>
+                    <a href="#contact" class="btn btn-secondary nav-link">שאל שאלה</a>
+
+                </div>
+            </div>
+             <div class="homepage-grid">
+                <div class="card">
+                     <h3>מה תמצאו באתר?</h3>
+                     <div class="info-grid">
+                         <div>
+                             <h4>📚 חומרי לימוד</h4>
+                             <p>מצגות, סיכומים ותרגילים לכל נושאי הלימוד.</p>
+                         </div>
+                         <div>
+                             <h4>📝 מבחנים לדוגמה</h4>
+                             <p>פתרונות מלאים למבחנים קודמים ומבחני הכנה.</p>
+                         </div>
+                         <div class="info-grid-item-full">
+                             <h4>💡 טיפים להצלחה</h4>
+                             <p>אסטרטגיות למידה שיעזרו לכם למצות את הפוטנציאל.</p>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="card">
+                     <h3>מאמרים וטיפים חדשים</h3>
+                     <div class="featured-articles-container">
+                        <div class="featured-article active" data-index="0">
+                            <h4>תחקור מבחן – הדרך ללמוד מכל מבחן</h4>
+                            <p>קיבלתם מבחן בחזרה? אל תסתכלו רק על הציון. במאמר חדש נלמד איך להפוך כל מבחן, גם כזה שלא הצלחנו בו, לכלי שיפור אדיר להצלחה הבאה שלכם.</p>
+                            <a href="#tips" class="btn nav-link" data-article-target="test-debrief">קריאת המאמר</a>
+                        </div>
+                        <div class="featured-article" data-index="1">
+                            <h4>מבוא לחשמל לתלמידי כיתה י'</h4>
+                            <p>היסודות לעולם המרתק של האלקטרוניקה והמחשבים. הכירו את המושגים הבסיסיים, הרכיבים הראשונים וחוקי היסוד שכל מהנדס מתחיל חייב להכיר.</p>
+                            <a href="#materials-intro" class="btn nav-link">מעבר לחומר הלימוד</a>
+                        </div>
+                        </div>
+                     <div class="article-nav">
+                        <button class="article-nav-btn" id="prev-article">‹</button>
+                        <div class="article-dots"></div>
+                        <button class="article-nav-btn" id="next-article">›</button>
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        <section id="about" class="page-content">
+             <h2>אודות</h2>
+             <div class="card" style="height: auto;">
+                 <div class="about-me-container">
+                      <div class="profile-pic-container">
+                         <div class="profile-pic">
+                            <img src="IMG_20201027_210302_132.jpg" alt="תמונת פרופיל של לירן חפצ'יק">
+                         </div>
+                     </div>
+                     <div class="cv-content">
+                         <h3>לירן חפצ'יק</h3>
+                         <p>מורה ומרצה לאלקטרוניקה, מחשבים , בעל ניסיון עשיר בהדרכה, פיקוד והובלת פרויקטים טכנולוגיים. מחויב להצלחת תלמידיו ובעל יכולת מוכחת להנגיש חומרים מורכבים וליצור פתרונות יצירתיים.</p>
+                     </div>
+                 </div>
+                 <div class="cv-section">
+                     <h3>השכלה והסמכות</h3>
+                     <ul>
+                         <li><b>הנדסאי אלקטרוניקה</b> – התמחות במערכות תקשורת.</li>
+                         <li><b>תעודת בגרות מלאה (47 יח"ל)</b> - כולל 5 יח"ל במתמטיקה, אנגלית, מדעי המחשב ו-10 יח"ל ביולוגיה.</li>
+                         <li><b>הסמכת CCNA</b> - עבודה עם ציוד רשתות של סיסקו.</li>
+                         <li><b>תכנון ובקרה של מערכות</b> - הסמכת LabVIEW.</li>
+                     </ul>
+                 </div>
+                  <div class="cv-section">
+                     <h3>ניסיון מקצועי והדרכתי</h3>
+                       <ul>
+                         <li><b>ליווי והנחיית פרויקטים:</b> השתתפות, ליווי והגשה של מעל 32 פרויקטי גמר להנדסאי אלקטרוניקה ותוכנה, והגשת 6 כיתות לפרויקטי גמר בתיכון ובעל-תיכוני.</li>
+                         <li><b>עובד משק (גד"ש) ויקב, מקוה ישראל:</b> עבודה חקלאית מאתגרת והקפדה על בקרת איכות ותהליכי ייצור מדויקים.</li>
+                     </ul>
+                 </div>
+                 <div class="cv-section">
+                     <h3>שירות צבאי משמעותי וקשור</h3>
+                       <ul>
+                         <li><b>מפקד שוחרים ומורה למקצועות טכנולוגיים:</b> בית הספר הטכנולוגי ב"ש. פיקוד, הדרכה והוראה במקצועות אלקטרוניקה, מכטרוניקה, תוכנה ואוויוניקה (רעם וסופה).</li>
+                         <li><b>הכנה לבגרות ופרויקטים:</b> אחריות על תוכניות לימוד, ליווי והנחיית פרויקטים טכנולוגיים והגשת תלמידים לבגרות.</li>
+                         <li><b>מפקד קורסי אוויוניקה.</b></li>
+                     </ul>
+                 </div>
+             </div>
+        </section>
+
+        <section id="tips" class="page-content">
+            <h2>מאמרים וטיפים ללמידה</h2>
+            <p>הצלחה במקצועות טכנולוגיים דורשת יותר משינון. בחר את המאמר הרצוי לקריאה.</p>
+            
+            <div class="article-tab-container">
+                <div class="article-tabs">
+                    <button class="article-select-btn active" data-article="learning-tips">טיפים כלליים ללמידה</button>
+                    <button class="article-select-btn" data-article="test-debrief">מדריך לתחקור מבחן</button>
+                </div>
+                
+                <div class="card article-content-pane" style="height: auto;">
+                    <div id="article-learning-tips" class="article-content active">
+                        <h3>טיפים ללמידה יעילה</h3>
+                        <div class="tips-grid">
+                            <div class="card" style="height: auto;">
+                                <h4>לשאול ולהתייעץ</h4>
+                                <p>אל תתביישו לשאול שאלות, להתייעץ זה עם זה ולשתף בקשיים. כך כולנו יכולים ללמוד יחד. אין שאלה טיפשית, רק תשובה שלא קיבלנו.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>ללמוד מהתרגילים</h4>
+                                <p>כשאתם פותרים תרגיל, השתמשו בעט בצבע שונה כדי לרשום לעצמכם מה היה מאתגר בתרגיל, מה למדתם ממנו, ומה היה ייחודי בו. כך כל תרגיל הופך לשיעור בפני עצמו.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>למידה בקבוצות</h4>
+                                <p>קבוצות לימוד הן כלי נהדר. הסבר של חבר יכול להאיר נקודה שלא הבנתם. למדו יחד, אתגרו אחד את השני, והסבירו כל פרט שמבלבל אתכם.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>חזרה עם מטרה</h4>
+                                <p>כשאתם פותרים שוב תרגילים, אל תעשו זאת באופן אוטומטי. נסו להתמקד דווקא באותם אתגרים שזיהיתם בעבר ולראות אם התקדמתם בהם.</p>
+                            </div>
+                        </div>
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto;">
+                            <h3 style="color: var(--secondary-color);">הנוסחה להצלחה: התמדה + השקעה = הצלחה</h3>
+                            <h4>הישארו עקביים, השקיעו בלמידה יומיומית, וההצלחה תגיע!</h4>
+                        </div>
+                    </div>
+                    
+                    <div id="article-test-debrief" class="article-content">
+                        <h3>תחקור מבחן – הדרך ללמוד מכל מבחן</h3>
+                        <p>כל מבחן, לא משנה מה הציון בו, הוא הזדמנות אדירה ללמוד ולהשתפר. תחקור נכון של מבחן הוא לא רק מבט על הטעויות, אלא הבנה עמוקה של תהליך החשיבה שלנו. כך תעשו את זה נכון:</p>
+                        <div class="tips-grid" style="margin-top: 20px;">
+                            <div class="card" style="height: auto;">
+                                <h4>1. בדיקת הציון: מבט בוגר</h4>
+                                <p>הסתכלו על הציון, אבל אל תתנו לו להכתיב את מצב הרוח. שאלו את עצמכם: האם הציון תואם לציפיות? איפה נתקעתי? האם ניהול הזמן היה נכון?</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>2. ניתוח מעמיק של המבחן</h4>
+                                <p>עברו שאלה-שאלה, גם על אלו שעניתם נכון. המטרה היא להבין את דפוס החשיבה שלכם, לזהות חוזקות ולחשוף נקודות חולשה שדורשות חיזוק.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>3. זיהוי וסיווג הטעויות</h4>
+                                <p>ליד כל טעות, כתבו מה גרם לה: האם זה חוסר ידע, בלבול, לחץ, ניהול זמן לקוי או סתם טעות טכנית של חישוב? היו כנים עם עצמכם.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>4. הבנת הפתרון הנכון</h4>
+                                <p>עבור כל טעות, ודאו שאתם מבינים כעת את הדרך הנכונה לפתרון. אם לא, זה הזמן המושלם להתייעץ עם חברים או לחזור לחומר הלימוד.</p>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>5. שאלת המפתח: איך מונעים?</h4>
+                                <p>זהו השלב החשוב ביותר. הפכו כל סיבה לטעות לפעולה אקטיבית. לדוגמה: טעיתם מלחץ? תרגלו יותר סימולציות עם שעון עצר.</p>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>6. סיכום לקחים להמשך</h4>
+                                <p>כתבו לעצמכם 2-3 לקחים מרכזיים מהתהליך. אם צריך, שנו את אסטרטגיית הלמידה שלכם. זכרו, המטרה היא להשתפר למבחן הבא.</p>
+                            </div>
+                        </div>
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto;">
+                            <h3 style="color: var(--secondary-color);">השורה התחתונה: כל מבחן הוא שיעור</h3>
+                            <h4>הפכו כל טעות להזדמנות ללמידה, וההצלחה הבאה בטוח תגיע!</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="page-content">
+            <h2>חומרי לימוד</h2>
+            <p>כאן תוכלו למצוא את כל חומרי הלימוד, מחולקים לפי מסלולים ונושאים. בחרו נושא כדי לצפות בחומרים הרלוונטיים.</p>
+            <div class="card" style="height: auto;">
+                <h3>תיכון - מגמת אלקטרוניקה ומחשבים (י'-י"ב)</h3>
+                <ul class="subject-link-list">
+                    <li><a href="#materials-intro" class="subject-link nav-sub-link">מבואות (כיתה י')</a> <span class="arrow">›</span></li>
+                    <li><a href="#materials-electricity" class="subject-link nav-sub-link">תורת החשמל והאלקטרוניקה</a> <span class="arrow">›</span></li>
+                    <li><a href="#materials-digital" class="subject-link nav-sub-link">מערכות ספרתיות</a> <span class="arrow">›</span></li>
+                    <li><a href="#materials-c-lang" class="subject-link nav-sub-link">שפת C ותכנות מיקרו-בקרים</a> <span class="arrow">›</span></li>
+                </ul>
+            </div>
+            <div class="card" style="height: auto;">
+                <h3>הנדסאים - אלקטרוניקה ומחשבים (י"ג-י"ד)</h3>
+                <ul class="subject-link-list">
+                     <li><a href="#materials-math-physics" class="subject-link nav-sub-link">מתמטיקה שימושית ופיזיקה</a> <span class="arrow">›</span></li>
+                     <li><a href="#materials-acdc" class="subject-link nav-sub-link">תורת החשמל (AC/DC)</a> <span class="arrow">›</span></li>
+                     <li><a href="#materials-vhdl" class="subject-link nav-sub-link">מערכות ספרתיות ו-VHDL/Verilog</a> <span class="arrow">›</span></li>
+                     <li><a href="#materials-cpp-python" class="subject-link nav-sub-link">תכנות מתקדם (C++, Python)</a> <span class="arrow">›</span></li>
+                     <li><a href="#materials-embedded" class="subject-link nav-sub-link">מיקרו-בקרים ו-Embedded Systems</a> <span class="arrow">›</span></li>
+                     <li><a href="#materials-comms" class="subject-link nav-sub-link">תקשורת (אנלוגית, ספרתית, רשתות)</a> <span class="arrow">›</span></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="materials-intro" class="page-content">
+            <h2>מבואות (כיתה י')</h2>
+            <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>ברוכים הבאים לכיתה י'! כאן נניח את היסודות לעולם המרתק של האלקטרוניקה והמחשבים.</p>
+            </div>
+            <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                     <li>
+                        <span><strong>מבוא לחשמל</strong></span>
+                        <div class="material-links"><a href="materials/high_school/intro/מבוא לתורת החשמל.html" class="btn-download">מבואות</a></div>
+                    </li>
+                    <li>
+                        <span><strong>מבוא למדעי המחשב</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+        
+        <section id="materials-electricity" class="page-content">
+            <h2>תורת החשמל והאלקטרוניקה (תיכון)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>בקורס זה נלמד את עקרונות הבסיס של מעגלים חשמליים, רכיבים פסיביים ואקטיביים, וחוקי יסוד כמו חוק אוהם וחוקי קירכהוף.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                     <li>
+                        <span><strong>סיכומים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגול</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-digital" class="page-content">
+            <h2>מערכות ספרתיות (תיכון)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>נכיר את העולם הבינארי, נלמד על שערים לוגיים, אלגברה בוליאנית, מעגלים צירופיים וסדרתיים, וכיצד כל אלה בונים את המחשב המודרני.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                 <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                     <li>
+                        <span><strong>סיכומים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגול</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+        
+        <section id="materials-c-lang" class="page-content">
+            <h2>שפת C ותכנות מיקרו-בקרים (תיכון)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>נלמד לתכנת בשפת C, אחת השפות החשובות בעולם הטכנולוגיה, וניישם את הידע על מיקרו-בקרים כמו ארדואינו כדי לבנות מערכות חכמות.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>דפי עבודה</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגילי מעבדה</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-math-physics" class="page-content">
+            <h2>מתמטיקה שימושית ופיזיקה (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>הכלים המתמטיים והפיזיקליים הנדרשים להבנה עמוקה של תופעות הנדסיות, כולל אנליזה וקטורית, משוואות דיפרנציאליות ואלקטרומגנטיות.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                     <li>
+                        <span><strong>סיכומים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגולים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-acdc" class="page-content">
+            <h2>תורת החשמל (AC/DC) (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>ניתוח מעמיק של מעגלי זרם ישר וזרם חילופין, משפטי רשת, ניתוחי מצב מתמיד ומצב מעבר, והיגבים של רכיבים.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>מעבדות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-vhdl" class="page-content">
+            <h2>מערכות ספרתיות ו-VHDL/Verilog (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>קורס מתקדם למערכות ספרתיות עם דגש על שפות תיאור חומרה (HDL) לתכנון וסימולציה של רכיבים לוגיים מורכבים (CPLD, FPGA).</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגולים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-cpp-python" class="page-content">
+            <h2>תכנות מתקדם (C++, Python) (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>נלמד תכנות מונחה עצמים ב-C++ וניישם את העוצמה של Python לניתוח נתונים, אוטומציה ותקשורת עם חומרה.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>פרויקטים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="materials-embedded" class="page-content">
+            <h2>מיקרו-בקרים ו-Embedded Systems (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>תכנון ופיתוח מערכות משובצות מחשב (Embedded) תוך שימוש במיקרו-בקרים מתקדמים, תקשורת בין רכיבים וניהול זמן אמת.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>מצגות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>מעבדות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+        
+        <section id="materials-comms" class="page-content">
+            <h2>תקשורת (אנלוגית, ספרתית, רשתות) (הנדסאים)</h2>
+             <div class="card" style="height: auto;">
+                <h3>מידע כללי וסילבוס</h3>
+                <p>עקרונות התקשורת האנלוגית והספרתית, אפנונים, קידודים, וכן יסודות ברשתות תקשורת ומודל ה-OSI.</p>
+            </div>
+             <div class="card" style="height: auto;">
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>סיכומים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                    <li>
+                        <span><strong>תרגולים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary back-to-materials">חזור לרשימת המקצועות</button>
+        </section>
+
+        <section id="projects" class="page-content">
+            <h2>פרויקטי גמר</h2>
+            <p>עמוד זה מרכז את כל המידע הדרוש לביצוע פרויקט גמר מוצלח, החל משלב הרעיון ועד להגשה הסופית, הן לתלמידי תיכון (5 יח"ל) והן להנדסאים.</p>
+            <div class="card" style="height: auto;">
+                <h3>טיפים לבחירת פרויקט גמר</h3>
+                <ul>
+                    <li><strong>בחרו נושא שמעניין אתכם:</strong> התשוקה לנושא תהיה הדלק שלכם ברגעים מאתגרים.</li>
+                    <li><strong>ודאו שהפרויקט ישים:</strong> בדקו את זמינות הרכיבים, עלותם והזמן הנדרש לביצוע. אל תהססו להתייעץ איתי.</li>
+                    <li><strong>התחילו בקטן והגדירו אבני דרך:</strong> הגדירו מטרות קטנות וברורות (לדוגמה: "להדליק נורה", "לקרוא חיישן") והתקדמו צעד אחר צעד.</li>
+                    <li><strong>תעדו הכל:</strong> כתבו יומן עבודה מסודר. הוא יעזור לכם במעקב ויהווה בסיס לספר הפרויקט.</li>
+                    <li><strong>אל תפחדו לטעות:</strong> טעויות הן חלק בלתי נפרד מתהליך הלמידה והפיתוח. הפתרון לבעיה מורכבת הוא לעתים קרובות הניסיון הכי יקר שתצברו.</li>
+                </ul>
+            </div>
+            <div class="card" style="height: auto;">
+                <h3>חומרי עזר, הנחיות ודרישות</h3>
+                <p>כאן תמצאו קישורים להנחיות הרשמיות, פורמטים של ספר פרויקט, ודוגמאות לפרויקטים משנים קודמות שיעניקו לכם השראה.</p>
+                <ul class="subject-list">
+                    <li>
+                        <span><strong>הנחיות ודרישות</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">תיכון</a> <a href="#" class="btn-download">הנדסאים</a></div>
+                    </li>
+                    <li>
+                        <span><strong>רעיונות לפרויקטים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">צפייה</a></div>
+                    </li>
+                     <li>
+                        <span><strong>דוגמאות לפרויקטים</strong></span>
+                        <div class="material-links"><a href="#" class="btn-download">צפייה</a></div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="exams" class="page-content">
+            <h2>מבחנים לדוגמה</h2>
+            <p>הדרך הטובה ביותר להתכונן למבחן היא לתרגל. ריכזתי עבורכם מבחנים משנים קודמות ומבחני מתכונת עם פתרונות מלאים.</p>
+             <div class="card" style="height: auto;">
+                <h3>מבחני בגרות (תיכון)</h3>
+                <ul>
+                    <li>מבחן בגרות במערכות ספרתיות - קיץ 2024: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                    <li>מבחן בגרות בחשמל - חורף 2024: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                    <li>מתכונת במבוא לתכנות - 2023: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                </ul>
+            </div>
+            <div class="card" style="height: auto;">
+                <h3>מבחנים פנימיים ומה"ט (הנדסאים)</h3>
+                 <ul>
+                    <li>מבחן סמסטר במיקרו-בקרים - 2024: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                    <li>מבחן מה"ט ברשתות תקשורת - 2023: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                    <li>מבחן סוף קורס בפייתון - 2023: <a href="#">שאלון</a> | <a href="#">פתרון</a></li>
+                </ul>
+            </div>
+        </section>
+        
+        <section id="contact" class="page-content">
+            <h2>צור קשר</h2>
+            <p>יש לכם שאלה? צריכים עזרה בנושא ספציפי? הרגישו חופשי למלא את הטופס ואחזור אליכם בהקדם.</p>
+            <div class="card" style="height: auto;">
+                <form id="contactForm" class="contact-form">
+                    <label for="name">שם מלא:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">כתובת אימייל:</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="subject">נושא הפנייה:</label>
+                    <input type="text" id="subject" name="subject" required>
+                    <label for="message">תוכן ההודעה:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+                    <button type="submit" class="btn">שלח הודעה</button>
+                </form>
+                <div id="form-message" style="margin-top: 15px;"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="notification-banner" class="notification-banner">פעולה זו אינה מורשית.</div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Page Navigation Logic ---
+        const mainNavLinks = document.querySelectorAll('header .nav-link, footer .nav-link, .btn.nav-link');
+        const subNavLinks = document.querySelectorAll('.nav-sub-link');
+        const backToMaterialsButtons = document.querySelectorAll('.back-to-materials');
+        const pages = document.querySelectorAll('.page-content');
+        
+        function showPage(pageId) {
+            pages.forEach(page => page.classList.remove('active'));
+            const activePage = document.getElementById(pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+        }
+
+        function updateNav(targetId) {
+             const allLinks = document.querySelectorAll('header .nav-link');
+             allLinks.forEach(l => l.classList.remove('active'));
+             
+             let mainTargetId = targetId;
+             if (targetId.startsWith('materials-')) {
+                mainTargetId = 'materials';
+             }
+
+             const linkSelector = `header .nav-link[href="#${mainTargetId}"]`;
+             document.querySelectorAll(linkSelector).forEach(activeLink => {
+                 activeLink.classList.add('active');
+             });
+        }
+        
+        function handleLinkClick(e) {
+            e.preventDefault();
+            const pageId = e.currentTarget.getAttribute('href').substring(1);
+            
+            showPage(pageId);
+            updateNav(pageId);
+            
+            const articleTarget = e.currentTarget.getAttribute('data-article-target');
+            if (articleTarget) {
+                const targetButton = document.querySelector(`.article-select-btn[data-article="${articleTarget}"]`);
+                if(targetButton) {
+                    targetButton.click();
+                }
+            }
+            
+            window.scrollTo(0, 0);
+        }
+
+        mainNavLinks.forEach(link => link.addEventListener('click', handleLinkClick));
+        subNavLinks.forEach(link => link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = e.currentTarget.getAttribute('href').substring(1);
+            showPage(pageId);
+            updateNav(pageId);
+            window.scrollTo(0, 0);
+        }));
+        backToMaterialsButtons.forEach(button => button.addEventListener('click', (e) => {
+             e.preventDefault();
+             showPage('materials');
+             updateNav('materials');
+             window.scrollTo(0, 0);
+        }));
+
+        // --- Homepage Featured Articles Slider ---
+        const articles = document.querySelectorAll('.featured-article');
+        const nextBtn = document.getElementById('next-article');
+        const prevBtn = document.getElementById('prev-article');
+        const dotsContainer = document.querySelector('.article-dots');
+        let currentArticleIndex = 0;
+        let articleAutoSlideInterval; // Added for auto-slide
+
+        function showArticle(index) {
+            articles.forEach((article, i) => {
+                article.classList.toggle('active', i === index);
+            });
+            if (dotsContainer) {
+                Array.from(dotsContainer.children).forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+            }
+            currentArticleIndex = index;
+        }
+
+        function startAutoSlide() { // Function to start auto-sliding
+            clearInterval(articleAutoSlideInterval); // Clear any existing interval
+            articleAutoSlideInterval = setInterval(() => {
+                const nextIndex = (currentArticleIndex + 1) % articles.length;
+                showArticle(nextIndex);
+            }, 1500); // 1.5 seconds
+        }
+
+        if (articles.length > 0) {
+            articles.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.classList.add('article-dot');
+                dot.addEventListener('click', () => {
+                    showArticle(i);
+                    startAutoSlide(); // Restart auto-slide on manual navigation
+                });
+                if (dotsContainer) {
+                    dotsContainer.appendChild(dot);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const nextIndex = (currentArticleIndex + 1) % articles.length;
+                showArticle(nextIndex);
+                startAutoSlide(); // Restart auto-slide on manual navigation
+            });
+
+            prevBtn.addEventListener('click', () => {
+                const prevIndex = (currentArticleIndex - 1 + articles.length) % articles.length;
+                showArticle(prevIndex);
+                startAutoSlide(); // Restart auto-slide on manual navigation
+            });
+            
+            showArticle(0);
+            startAutoSlide(); // Start auto-sliding when the page loads
+        }
+        
+        // --- Tips Page Article Selection ---
+        const articleSelectBtns = document.querySelectorAll('.article-select-btn');
+        const articleContents = document.querySelectorAll('.article-content');
+
+        articleSelectBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetArticleId = `article-${btn.dataset.article}`;
+                
+                articleContents.forEach(content => {
+                    content.classList.toggle('active', content.id === targetArticleId);
+                });
+                
+                articleSelectBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // --- Contact Form ---
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const formMessage = document.getElementById('form-message');
+                formMessage.style.color = 'green';
+                formMessage.textContent = `תודה, ${name}! הודעתך נשלחה בהצלחה.`;
+                contactForm.reset();
+            });
+        }
+        
+        // --- Initial Page Load ---
+        const initialHash = window.location.hash ? window.location.hash.substring(1) : 'home';
+        if (document.getElementById(initialHash)) {
+            showPage(initialHash);
+            updateNav(initialHash);
+        } else {
+            showPage('home');
+            updateNav('home');
+        }
+
+        // --- Security Features (Right-click, etc.) ---
+        const notificationBanner = document.getElementById('notification-banner');
+        let notificationTimeout;
+
+        function triggerWatermarks() {
+            const watermarkContainer = document.createElement('div');
+            watermarkContainer.style.position = 'fixed';
+            watermarkContainer.style.top = '0';
+            watermarkContainer.style.left = '0';
+            watermarkContainer.style.width = '100vw';
+            watermarkContainer.style.height = '100vh';
+            watermarkContainer.style.zIndex = '9999';
+            watermarkContainer.style.pointerEvents = 'none';
+            document.body.appendChild(watermarkContainer);
+
+            for (let i = 0; i < 15; i++) {
+                const watermark = document.createElement('div');
+                watermark.textContent = 'לירן חפציק';
+                watermark.classList.add('dynamic-watermark');
+                watermark.style.top = `${Math.random() * 100}vh`;
+                watermark.style.left = `${Math.random() * 100}vw`;
+                watermark.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 90 - 45}deg)`;
+                watermarkContainer.appendChild(watermark);
+            }
+
+            setTimeout(() => {
+                if (document.body.contains(watermarkContainer)) {
+                    document.body.removeChild(watermarkContainer);
+                }
+            }, 2500);
+        }
+
+        function showProtectionWarning() {
+            clearTimeout(notificationTimeout);
+            notificationBanner.classList.add('show');
+            notificationTimeout = setTimeout(() => {
+                notificationBanner.classList.remove('show');
+            }, 1500);
+            triggerWatermarks();
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showProtectionWarning();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const blockedCtrlKeys = ['KeyC', 'KeyA', 'KeyU', 'KeyS', 'KeyP', 'Keyk' ,'KeyV', 'KeyX'];
+            if (e.code === 'F12' || (e.ctrlKey && blockedCtrlKeys.includes(e.code))) {
+                e.preventDefault();
+                showProtectionWarning();
+            }
+            if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
+                e.preventDefault();
+                showProtectionWarning();
+            }
+        });
+    });
+    </script>
+</body>
+</html>
