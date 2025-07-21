@@ -2,8 +2,8 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>לירן חפצ'יק - אתר הלימודים</title>
     <style>
         /* CSS - עיצוב האתר */
@@ -13,6 +13,7 @@
             --dark-color: #303030;
             --light-color: #f4f4f4;
             --danger-color: #d9534f;
+            --success-color: #5cb85c;
             --font-family: 'Arial', sans-serif;
             --border-radius: 8px;
         }
@@ -286,9 +287,22 @@
         .btn-download:hover { background-color: var(--primary-color); color: #fff; }
 
         /* ----- Featured Articles Slider ----- */
-        .featured-articles-container { flex-grow: 1; position: relative; }
-        .featured-article { display: none; }
-        .featured-article.active { display: block; animation: fadeIn 0.5s; }
+        .featured-articles-card {
+             min-height: 280px; /* גובה מינימלי קבוע */
+        }
+        .featured-articles-container {
+            flex-grow: 1;
+            position: relative;
+        }
+        .featured-article {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out; /* מעבר חלק יותר */
+        }
+        .featured-article.active {
+            display: block;
+            opacity: 1;
+        }
         .article-nav {
             margin-top: auto; /* Pushes to bottom */
             padding-top: 20px; /* Space above nav */
@@ -324,18 +338,19 @@
         .article-tabs {
             display: flex;
             border-bottom: 2px solid #ddd;
-            margin-bottom: -2px; /* Pulls content border up */
+            margin-bottom: 0;
+            flex-wrap: wrap;
         }
         .article-select-btn {
             padding: 10px 20px;
             cursor: pointer;
             background: none;
             border: none;
-            border-bottom: 2px solid transparent;
+            border-bottom: 3px solid transparent;
             font-size: 16px;
             color: var(--dark-color);
-            margin-bottom: -2px;
             transition: color 0.3s, border-color 0.3s;
+            margin-bottom: -2px;
         }
         .article-select-btn:hover { color: var(--primary-color); }
         .article-select-btn.active {
@@ -344,13 +359,14 @@
             font-weight: bold;
         }
         .article-content-pane {
-            border-top-left-radius: 0; /* Connects to tabs */
-            border-top-right-radius: 0;
-            padding-top: 30px;
+            border: 1px solid #ddd;
+            border-top: none;
+            padding: 25px;
+            background: #fff;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
         }
         .article-content { display: none; }
         .article-content.active { display: block; animation: fadeIn 0.5s; }
-
 
         .contact-form input, .contact-form textarea {
             width: 100%;
@@ -370,6 +386,16 @@
         }
         
         .tips-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .tips-grid .card {
+             box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* הצללה משופרת */
+        }
+        .tips-grid ul {
+            padding-right: 20px;
+            margin: 0;
+        }
+         .tips-grid ul li {
+            margin-bottom: 10px;
+        }
         
         @media (max-width: 1080px) {
             header .container { flex-direction: column; }
@@ -389,7 +415,6 @@
             bottom: -100px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--danger-color);
             color: white;
             padding: 12px 25px;
             border-radius: var(--border-radius);
@@ -399,6 +424,8 @@
             transition: bottom 0.5s ease-in-out;
         }
         .notification-banner.show { bottom: 20px; }
+        .notification-banner.security { background-color: var(--danger-color); }
+        .notification-banner.contact { background-color: var(--primary-color); }
 
         @media print {
             body * { display: none !important; }
@@ -465,7 +492,7 @@
                          </div>
                      </div>
                  </div>
-                 <div class="card">
+                 <div class="card featured-articles-card">
                      <h3>מאמרים וטיפים חדשים</h3>
                      <div class="featured-articles-container">
                         <div class="featured-article active" data-index="0">
@@ -499,7 +526,7 @@
                      </div>
                      <div class="cv-content">
                          <h3>לירן חפצ'יק</h3>
-                         <p>מורה ומרצה לאלקטרוניקה, מחשבים , בעל ניסיון עשיר בהדרכה, פיקוד והובלת פרויקטים טכנולוגיים. מחויב להצלחת תלמידיו ובעל יכולת מוכחת להנגיש חומרים מורכבים וליצור פתרונות יצירתיים.</p>
+                         <p>מורה ומרצה לאלקטרוניקה, מחשבים , בעל ניסיון בהדרכה, פיקוד והובלת פרויקטים טכנולוגיים. מחויב להצלחת תלמידיו ובעל יכולת מוכחת להנגיש חומרים מורכבים וליצור פתרונות יצירתיים.</p>
                      </div>
                  </div>
                  <div class="cv-section">
@@ -534,12 +561,16 @@
             <p>הצלחה במקצועות טכנולוגיים דורשת יותר משינון. בחר את המאמר הרצוי לקריאה.</p>
             
             <div class="article-tab-container">
-                <div class="article-tabs">
+                <div class="article-tabs">                    
                     <button class="article-select-btn active" data-article="learning-tips">טיפים כלליים ללמידה</button>
+                    <button class="article-select-btn" data-article="TimeManagement">ניהול זמן</button>
+                    <button class="article-select-btn" data-article="BeforeExam">למידה לפני מבחן</button>
+                    <button class="article-select-btn" data-article="ExamApproach">איך לגשת נכון למבחן</button>
                     <button class="article-select-btn" data-article="test-debrief">מדריך לתחקור מבחן</button>
+
                 </div>
                 
-                <div class="card article-content-pane" style="height: auto;">
+                <div class="article-content-pane">
                     <div id="article-learning-tips" class="article-content active">
                         <h3>טיפים ללמידה יעילה</h3>
                         <div class="tips-grid">
@@ -560,49 +591,185 @@
                                 <p>כשאתם פותרים שוב תרגילים, אל תעשו זאת באופן אוטומטי. נסו להתמקד דווקא באותם אתגרים שזיהיתם בעבר ולראות אם התקדמתם בהם.</p>
                             </div>
                         </div>
-                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto;">
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto; margin-top: 20px;">
                             <h3 style="color: var(--secondary-color);">הנוסחה להצלחה: התמדה × השקעה = הצלחה</h3>
                             <h4>הישארו עקביים, השקיעו בלמידה יומיומית, וההצלחה תגיע!</h4>
                         </div>
                     </div>
                     
+                     <div id="article-TimeManagement" class="article-content">
+                        <h3>טיפים לניהול זמן ביום־יום</h3>
+                        <p>ניהול זמן הוא לא קסם – זה פשוט להבין לאן הזמן שלך הולך, ואיך למשוך אותו לכיוון שאת/ה רוצה. הנה כמה עקרונות שיעזרו לך לשלוט ביומן במקום שהוא ישלוט בך:</p>
+                        <div class="tips-grid">
+                            <div class="card" style="height: auto;">
+                                <h4>דעו לאן הזמן שלכם נעלם</h4>
+                                <p><strong>שלב ראשון: מעקב יומי קצר</strong></p>
+                                <ul>
+                                    <li>במשך יומיים־שלושה, רשמו כל 30–60 דקות מה עשיתם בפועל. כן, אפילו את הגלילה באינסטגרם.</li>
+                                </ul>
+                                <p><strong>שלב שני: זיהוי גוזלי זמן</strong></p>
+                                <ul>
+                                    <li>לאחר המעקב, בדקו איפה בוזבז הכי הרבה זמן שלא באמת תכננתם (גלישה, הודעות, מיילים וכו').</li>
+                                    <li>זה המקום הראשון לטיפול ושינוי.</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>תכננו את היום שלמחרת</h4>
+                                <p><strong>שלושת המשימות העיקריות</strong></p>
+                                <ul>
+                                    <li>בסוף כל יום, רשמו 3 משימות עיקריות שאתם רוצים להספיק מחר – כאלה שבאמת חשוב לכם לקדם.</li>
+                                </ul>
+                                <p><strong>התחילו מהכבד</strong></p>
+                                <ul>
+                                     <li>התחילו את הבוקר עם המשימה הכי גדולה או הכי "מפחידה". זה הזמן שבו האנרגיה והריכוז בשיא.</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>סגרו הסחות דעת – גם בכוח</h4>
+                                <p><strong>טלפון על שקט/מצב טיסה</strong></p>
+                                <ul>
+                                    <li>בזמן עבודה – העבירו את הטלפון למצב טיסה או שקט, והרחיקו אותו מכם פיזית.</li>
+                                </ul>
+                                <p><strong>לשוניות מיותרות – לסגור עכשיו</strong></p>
+                                <ul>
+                                    <li>סגרו מיילים, וואטסאפ אינטרנטי וכל מה שלא דרוש לעבודה הנוכחית.</li>
+                                    <li>כל לשונית היא פתח להסחת דעת.</li>
+                                </ul>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>חלקו משימות לחלקים קטנים</h4>
+                                <p><strong>שיטת ה־15 דקות</strong></p>
+                                <ul>
+                                    <li>הגדירו טיימר ל־15 דקות בלבד למשימה גדולה.</li>
+                                    <li>גם אם לא ממשיכים – 15 דקות זה יותר מכלום.</li>
+                                </ul>
+                                <p><strong>הפסקות קצרות חובה</strong></p>
+                                <ul>
+                                    <li>לאחר כל מקטע עבודה – קומו, תשתו מים, תתמתחו ותתאווררו.</li>
+                                </ul>
+                            </div>
+                            <div class="card tips-grid-full-width" style="height: auto; " >
+                                <h4>תלמדו להגיד "לא" (גם לעצמכם)</h4>
+                                <p><strong>"לא" לבקשות מיותרות</strong></p>
+                                <ul>
+                                    <li>אם מישהו מבקש משהו שלא משרת את המטרות שלכם – מותר להגיד לא בנימוס.</li>
+                                </ul>
+                                <p><strong>"לא" לדחיינות</strong></p>
+                                <ul>
+                                    <li>כשאתם מזהים דחיינות – שאלו את עצמכם למה.</li>
+                                    <li>לרוב זו משימה גדולה מדי או לא ברורה – פרקו אותה לצעדים קטנים והתחילו.</li>
+                                </ul>
+                            </div>
+                            </div>
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto; margin-top: 20px;">
+                            <h3 style="color: var(--secondary-color);">התחל בקטן. בחר טיפ אחד או שניים והתמד בהם. שינוי גדול מתחיל בצעד קטן.</h3>
+                        </div>
+                    </div>
+
+                    <div id="article-BeforeExam" class="article-content">
+                        <h3>למידה לפני מבחן</h3>
+                        <div class="tips-grid">
+                            <div class="card" style="height: auto;">
+                                <h4>לא רק לקרוא – לכתוב</h4>
+                                <p>
+                                רק לקרוא סיכומים? זה לא מספיק. כתיבה מחייבת עיבוד עמוק יותר של המידע. תרשמו לעצמכם תובנות, דוגמאות ושאלות.
+                                </p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>ללמוד מהתרגילים</h4>
+                                <p>
+                                אל תסתפקו בלקרוא – תרגלו שאלות. זו הדרך הכי טובה להבין איפה אתם באמת עומדים.
+                                </p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>תתחילו מהמוכר</h4>
+                                <p>
+                                התחילו ללמוד נושאים שאתם כבר מבינים בהם קצת – זה יוצר ביטחון וכניסה חלקה יותר לעומק.
+                                </p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>להסביר למישהו אחר</h4>
+                                <p>נסו להסביר את החומר בקול רם, כאילו אתם מלמדים חבר. אם אתם מצליחים להסביר – כנראה שאתם מבינים.</p>
+                            </div>
+                        </div>
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto; margin-top: 20px;">
+                            <h3 style="color: var(--secondary-color);">הנוסחה להצלחה: התמדה × השקעה = הצלחה</h3>
+                            <h4>הישארו עקביים, השקיעו בלמידה יומיומית, וההצלחה תגיע!</h4>
+                        </div>
+                    </div>
+
                     <div id="article-test-debrief" class="article-content">
                         <h3>תחקור מבחן – הדרך ללמוד מכל מבחן</h3>
                         <p>כל מבחן, לא משנה מה הציון בו, הוא הזדמנות אדירה ללמוד ולהשתפר. תחקור נכון של מבחן הוא לא רק מבט על הטעויות, אלא הבנה עמוקה של תהליך החשיבה שלנו. כך תעשו את זה נכון:</p>
                         <div class="tips-grid" style="margin-top: 20px;">
                             <div class="card" style="height: auto;">
-                                <h4>1. בדיקת הציון: מבט בוגר</h4>
+                                <h4>בדיקת הציון: מבט בוגר</h4>
                                 <p>הסתכלו על הציון, אבל אל תתנו לו להכתיב את מצב הרוח. שאלו את עצמכם: האם הציון תואם לציפיות? איפה נתקעתי? האם ניהול הזמן היה נכון?</p>
                             </div>
                              <div class="card" style="height: auto;">
-                                <h4>2. ניתוח מעמיק של המבחן</h4>
+                                <h4>ניתוח מעמיק של המבחן</h4>
                                 <p>עברו שאלה-שאלה, גם על אלו שעניתם נכון. המטרה היא להבין את דפוס החשיבה שלכם, לזהות חוזקות ולחשוף נקודות חולשה שדורשות חיזוק.</p>
                             </div>
                              <div class="card" style="height: auto;">
-                                <h4>3. זיהוי וסיווג הטעויות</h4>
+                                <h4>זיהוי וסיווג הטעויות</h4>
                                 <p>ליד כל טעות, כתבו מה גרם לה: האם זה חוסר ידע, בלבול, לחץ, ניהול זמן לקוי או סתם טעות טכנית של חישוב? היו כנים עם עצמכם.</p>
                             </div>
                              <div class="card" style="height: auto;">
-                                <h4>4. הבנת הפתרון הנכון</h4>
+                                <h4>הבנת הפתרון הנכון</h4>
                                 <p>עבור כל טעות, ודאו שאתם מבינים כעת את הדרך הנכונה לפתרון. אם לא, זה הזמן המושלם להתייעץ עם חברים או לחזור לחומר הלימוד.</p>
                             </div>
                             <div class="card" style="height: auto;">
-                                <h4>5. שאלת המפתח: איך מונעים?</h4>
+                                <h4>שאלת המפתח: איך מונעים?</h4>
                                 <p>זהו השלב החשוב ביותר. הפכו כל סיבה לטעות לפעולה אקטיבית. לדוגמה: טעיתם מלחץ? תרגלו יותר סימולציות עם שעון עצר.</p>
                             </div>
                             <div class="card" style="height: auto;">
-                                <h4>6. סיכום לקחים להמשך</h4>
+                                <h4>סיכום לקחים להמשך</h4>
                                 <p>כתבו לעצמכם 2-3 לקחים מרכזיים מהתהליך. אם צריך, שנו את אסטרטגיית הלמידה שלכם. זכרו, המטרה היא להשתפר למבחן הבא.</p>
                             </div>
                         </div>
-                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto;">
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto; margin-top: 20px;">
                             <h3 style="color: var(--secondary-color);">השורה התחתונה: כל מבחן הוא שיעור</h3>
                             <h4>הפכו כל טעות להזדמנות ללמידה, וההצלחה הבאה בטוח תגיע!</h4>
+                        </div>
+                    </div>
+                    
+                    <div id="article-ExamApproach" class="article-content">
+                        <h3>איך לגשת נכון למבחן</h3>
+                        <p>הגעתם מוכנים, אבל הלחץ במבחן עצמו יכול לבלבל. הנה כמה כלים להתמודדות נכונה בזמן אמת, שיעזרו לכם למצות את הידע שלכם.</p>
+                        <div class="tips-grid" style="margin-top: 20px;">
+                            <div class="card" style="height: auto;">
+                                <h4>סקירה ראשונית (5 דקות)</h4>
+                                <p>אל תתחילו לפתור מיד. דפדפו בכל המבחן. קבלו תמונה כללית, בדקו את חלוקת הנקודות והעריכו את רמת הקושי של כל שאלה. זה מרגיע ועוזר לתכנן.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>התחילו מהקל אל הכבד</h4>
+                                <p>פתרו קודם את השאלות שאתם מרגישים בהן הכי בטוחים. זה בונה ביטחון, "מכניס אתכם לקצב" ומבטיח שתצברו נקודות חשובות כבר על ההתחלה.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>נהלו את הזמן בחוכמה</h4>
+                                <p>חלקו את הזמן לפי הניקוד של כל שאלה. אם שאלה שווה 20 נקודות, אל תשקיעו בה חצי מהזמן של המבחן. שימו שעון מולכם ועקבו אחר הזמן.</p>
+                            </div>
+                             <div class="card" style="height: auto;">
+                                <h4>נתקעתם? המשיכו הלאה</h4>
+                                <p>אל תשרפו זמן יקר על שאלה אחת. סמנו אותה, עברו לשאלות הבאות, וחיזרו אליה בסוף אם יישאר זמן. לפעמים, הפתרון יגיע פתאום אחרי שתפתרו משהו אחר.</p>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>קראו את השאלה פעמיים</h4>
+                                <p>לפני שאתם עונים, ודאו שהבנתם בדיוק מה רוצים מכם. טעויות רבות נובעות מקריאה שטחית של השאלה. שימו לב למילים כמו "לא", "רק", "הסבר" או "חשב".</p>
+                            </div>
+                            <div class="card" style="height: auto;">
+                                <h4>בדיקה בסיום</h4>
+                                <p>השאירו 10-15 דקות בסוף לבדיקה. עברו על התשובות שלכם, בדקו חישובים ותקנו טעויות של חוסר תשומת לב. זה יכול להציל נקודות יקרות.</p>
+                            </div>
+                        </div>
+                         <div class="card" style="text-align: center; background-color: var(--dark-color); color: #fff; height: auto; margin-top: 20px;">
+                            <h3 style="color: var(--secondary-color);">זכרו: אתם יודעים את החומר. המפתח הוא להישאר רגועים ומסודרים.</h3>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
 
         <section id="materials" class="page-content">
             <h2>חומרי לימוד</h2>
@@ -754,6 +921,14 @@
             </div>
              <div class="card" style="height: auto;">
                 <ul class="subject-list">
+                     <li>
+                        <span><strong> סילבוס מבוא להנדסת חשמל</strong></span>
+                        <div class="material-links"><a href="https://drive.google.com/file/d/1VxMSuyYo8uxTY7Y-h6V5nb9-cqksXbEc/view" class="btn-download">סילבוס</a></div>
+                    </li>
+                    <li>
+                        <span><strong> קישור להרצאות קצרות בזרם ישר של המרצה יוסי ישי</strong></span>
+                        <div class="material-links"><a href="https://youtube.com/playlist?list=PLm52HPTb87QgxJTpKGV2i_D9mjrx-lEeZ&si=Y-H5p72WCtDe5pBK" class="btn-download">קישור</a></div>
+                    </li>
                     <li>
                         <span><strong>מצגות</strong></span>
                         <div class="material-links"><a href="#" class="btn-download">הורדה</a></div>
@@ -910,23 +1085,25 @@
             <p>יש לכם שאלה? צריכים עזרה בנושא ספציפי? הרגישו חופשי למלא את הטופס ואחזור אליכם בהקדם.</p>
             <div class="card" style="height: auto;">
                 <form id="contactForm" class="contact-form">
-                    <label for="name">שם מלא:</label>
-                    <input type="text" id="name" name="name" required>
-                    <label for="email">כתובת אימייל:</label>
-                    <input type="email" id="email" name="email" required>
-                    <label for="subject">נושא הפנייה:</label>
-                    <input type="text" id="subject" name="subject" required>
-                    <label for="message">תוכן ההודעה:</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
-                    <button type="submit" class="btn">שלח הודעה</button>
+                  <label for="name">שם מלא:</label>
+                  <input type="text" id="name" name="name" required>
+                
+                  <label for="email">כתובת אימייל:</label>
+                  <input type="email" id="email" name="email" required>
+                
+                  <label for="subject">נושא הפנייה:</label>
+                  <input type="text" id="subject" name="subject" required>
+                
+                  <label for="message">תוכן ההודעה:</label>
+                  <textarea id="message" name="message" rows="5" required></textarea>
+                
+                  <button type="submit" class="btn">שלח פנייה</button>
                 </form>
-                <div id="form-message" style="margin-top: 15px;"></div>
             </div>
         </section>
-
     </main>
 
-    <div id="notification-banner" class="notification-banner">פעולה זו אינה מורשית.</div>
+    <div id="notification-banner" class="notification-banner"></div>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -960,7 +1137,12 @@
         }
         
         function handleLinkClick(e) {
-            e.preventDefault();
+            // Check if the link is for the contact form to avoid preventing default behavior
+            const isContactButton = e.currentTarget.getAttribute('href') === '#contact' && e.currentTarget.classList.contains('btn');
+            if (!e.currentTarget.classList.contains('btn-download') && !isContactButton) {
+                e.preventDefault();
+            }
+
             const pageId = e.currentTarget.getAttribute('href').substring(1);
             
             showPage(pageId);
@@ -998,7 +1180,7 @@
         const prevBtn = document.getElementById('prev-article');
         const dotsContainer = document.querySelector('.article-dots');
         let currentArticleIndex = 0;
-        let articleAutoSlideInterval; // Added for auto-slide
+        let articleAutoSlideInterval;
 
         function showArticle(index) {
             articles.forEach((article, i) => {
@@ -1012,12 +1194,12 @@
             currentArticleIndex = index;
         }
 
-        function startAutoSlide() { // Function to start auto-sliding
-            clearInterval(articleAutoSlideInterval); // Clear any existing interval
+        function startAutoSlide() {
+            clearInterval(articleAutoSlideInterval);
             articleAutoSlideInterval = setInterval(() => {
                 const nextIndex = (currentArticleIndex + 1) % articles.length;
                 showArticle(nextIndex);
-            }, 1500); // 1.5 seconds
+            }, 5000); // 5 seconds interval
         }
 
         if (articles.length > 0) {
@@ -1026,7 +1208,7 @@
                 dot.classList.add('article-dot');
                 dot.addEventListener('click', () => {
                     showArticle(i);
-                    startAutoSlide(); // Restart auto-slide on manual navigation
+                    startAutoSlide();
                 });
                 if (dotsContainer) {
                     dotsContainer.appendChild(dot);
@@ -1036,17 +1218,17 @@
             nextBtn.addEventListener('click', () => {
                 const nextIndex = (currentArticleIndex + 1) % articles.length;
                 showArticle(nextIndex);
-                startAutoSlide(); // Restart auto-slide on manual navigation
+                startAutoSlide();
             });
 
             prevBtn.addEventListener('click', () => {
                 const prevIndex = (currentArticleIndex - 1 + articles.length) % articles.length;
                 showArticle(prevIndex);
-                startAutoSlide(); // Restart auto-slide on manual navigation
+                startAutoSlide();
             });
             
             showArticle(0);
-            startAutoSlide(); // Start auto-sliding when the page loads
+            startAutoSlide();
         }
         
         // --- Tips Page Article Selection ---
@@ -1066,16 +1248,40 @@
             });
         });
 
+        // --- Notifications ---
+        const notificationBanner = document.getElementById('notification-banner');
+        let notificationTimeout;
+        
+        function showNotification(message, type, duration = 2000) {
+            clearTimeout(notificationTimeout);
+            notificationBanner.textContent = message;
+            notificationBanner.className = 'notification-banner'; // Reset classes
+            notificationBanner.classList.add(type); // Add type class (e.g., 'security', 'contact')
+            notificationBanner.classList.add('show');
+            notificationTimeout = setTimeout(() => {
+                notificationBanner.classList.remove('show');
+            }, duration);
+        }
+
         // --- Contact Form ---
         const contactForm = document.getElementById('contactForm');
         if (contactForm) {
             contactForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const name = document.getElementById('name').value;
-                const formMessage = document.getElementById('form-message');
-                formMessage.style.color = 'green';
-                formMessage.textContent = `תודה, ${name}! הודעתך נשלחה בהצלחה.`;
-                contactForm.reset();
+                showNotification('מעביר אותך לאפליקציית המייל...', 'contact', 2500);
+                
+                setTimeout(() => {
+                    const name = document.getElementById("name").value;
+                    const email = document.getElementById("email").value;
+                    const subject = encodeURIComponent(document.getElementById("subject").value);
+                    const message = document.getElementById("message").value;
+
+                    const body = encodeURIComponent(`שם מלא: ${name}\nאימייל לחזרה: ${email}\n\n${message}`);
+                    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=khapchik.work@gmail.com&su=${subject}&body=${body}`;
+
+                    window.open(gmailUrl, '_blank');
+                    contactForm.reset();
+                }, 1000); 
             });
         }
         
@@ -1090,9 +1296,6 @@
         }
 
         // --- Security Features (Right-click, etc.) ---
-        const notificationBanner = document.getElementById('notification-banner');
-        let notificationTimeout;
-
         function triggerWatermarks() {
             const watermarkContainer = document.createElement('div');
             watermarkContainer.style.position = 'fixed';
@@ -1122,11 +1325,7 @@
         }
 
         function showProtectionWarning() {
-            clearTimeout(notificationTimeout);
-            notificationBanner.classList.add('show');
-            notificationTimeout = setTimeout(() => {
-                notificationBanner.classList.remove('show');
-            }, 1500);
+            showNotification('פעולה זו אינה מורשית.', 'security');
             triggerWatermarks();
         }
 
@@ -1141,7 +1340,7 @@
                 e.preventDefault();
                 showProtectionWarning();
             }
-            if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i') {
+            if (e.ctrlKey && e.shiftKey && (e.key.toLowerCase() === 'i' || e.key.toLowerCase() === 'c' || e.key.toLowerCase() === 'j')) {
                 e.preventDefault();
                 showProtectionWarning();
             }
