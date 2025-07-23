@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מבוא לתורת החשמל | לירן חפצ'יק</title>
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+
+    <style>
+        :root {
+            --primary-color: #3776AB;
+            --secondary-color: #FFD43B;
+            --dark-color: #303030;
+            --light-color: #f4f4f4;
+            --danger-color: #d9534f;
+            --accent-green: #009B77;
+            --font-family: 'Arial', sans-serif;
+        }
+        body {
+            font-family: var(--font-family); margin: 0; padding: 0; line-height: 1.5; /* הגדלת ריווח שורות לקריאות */
+            background-color: var(--light-color); color: var(--dark-color); position: relative;
+            overflow-x: hidden; user-select: none; -webkit-user-select: none;
+            -moz-user-select: none; -ms-user-select: none;
+        }
+
+    table {
+      margin: auto;
+      border-collapse: collapse;
+      font-size: 1.1em;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #ddd;
+    }
+
+    caption {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+
+
+        p { margin-bottom: 3px; /* ריווח גדול יותר לפסקאות */ }
+        .copyright{ color: white; font-size: 12px; text-align: right; margin-right: 15%; padding-bottom: 0%; }
+        .container { max-width: 1100px; /* רוחב מותאם למאמר */ margin: auto; overflow: hidden; padding: 0 20px; }
+        .dynamic-watermark { position: fixed; font-size: 2.5vw; color: #000000; opacity: 0; pointer-events: none; z-index: 9999; white-space: nowrap; transition: opacity 0.5s ease-in-out; animation: fadeInOut 2.5s ease-in-out; }
+        @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 0.07; } 80% { opacity: 0.07; } 100% { opacity: 0; } }
+        header { background: var(--dark-color); color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 900; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        header h1 { margin: 0; font-size: 24px; }
+        header h1 a { color: #fff; text-decoration: none; }
+        nav ul { padding: 0; margin: 0; list-style: none; display: flex; }
+        nav ul li a { color: #fff; text-decoration: none; padding: 0.5rem 1rem; transition: background-color 0.3s; cursor: pointer; }
+        nav ul li a:hover, nav ul li a.active { background-color: var(--primary-color); border-radius: 5px; }
+        main { padding: 2rem 0; }
+        .page-content { display: none; animation: fadeIn 0.5s; }
+        .page-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px; margin-top: 20px; }
+        h3 { color: var(--primary-color); margin-top: 30px; margin-bottom: 15px; }
+        h4 { margin-bottom: 10px; color: var(--dark-color); }
+        .card { background: #fff; padding: 25px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; transition: background-color 0.3s; }
+        .btn:hover { background: #2c608a; }
+        footer { background: var(--dark-color); color: #fff; text-align: center; padding: 1rem 0; margin-top: 2rem; }
+        .notification-banner { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--danger-color); color: white; padding: 12px 25px; border-radius: 8px; z-index: 10000; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: bottom 0.5s ease-in-out; }
+        .notification-banner.show { bottom: 20px; }
+        @media print { body * { display: none !important; } body::before { content: "הדפסת תוכן זה אינה מורשית."; color: #000; display: block; text-align: center; font-size: 24px; padding: 50px; } }
+        @media (max-width: 1080px) { header .container { flex-direction: column; } nav ul { margin-top: 1rem; flex-wrap: wrap; justify-content: center; gap: 5px; } nav ul li a { padding: 0.4rem 0.8rem; } }
+
+        /* --- סגנונות חדשים לתבנית המאמר --- */
+        .idea-box { background-color: #e7f1fa; border-right: 4px solid var(--primary-color); padding: 15px 20px; margin: 25px 0; border-radius: 0 8px 8px 0; }
+        .idea-box p { margin: 0; }
+        .article-image { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; background: #fff; }
+        figure { margin: 25px 0; text-align: center;}
+        figcaption { margin-top: 8px; font-size: 14px; color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><a href="../../../main.html#home" class="nav-link">לירן חפצ'יק - אתר הלימודים</a></h1>
+            <nav>
+                <ul>
+                    <li><a href="../../../main.html#home" class="nav-link">דף הבית</a></li>
+                    <li><a href="../../../main.html#about" class="nav-link">אודות</a></li>
+                    <li><a href="../../../main.html#tips" class="nav-link">טיפים ללמידה</a></li>
+                    <li><a href="../../../main.html#materials" class="nav-link active">חומרי לימוד</a></li>
+                    <li><a href="../../../main.html#projects" class="nav-link">פרויקטים</a></li>
+                    <li><a href="../../../main.html#exams" class="nav-link">מבחנים</a></li>
+                    <li><a href="../../../main.html#contact" class="nav-link">צור קשר</a></li>
+                </ul>
+            </nav>
+        </div>
+         <div class="copyright">
+            <p>כל הזכויות שמורות © 2025</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="article-content" class="page-content active">
+             
+      
+
+    <div class="card">
+
+
+
+<h2>הבדלים בין אלקטרוניקה ספרתית לאלקטרוניקה תקבילית: </h2>
+
+
+
+<strong>
+
+אלקטרוניקה ספרתית:
+
+</strong>
+
+
+
+  <ul>
+
+<li>ייצוג אותות:  אות המוגדר בערכים בדידים בלבד. מספר הערכים אשר יכול לקבל האות סופי ומוגדר מראש.  
+
+בעולם האלקטרוניקה זה האותות מיוצגים בצורת מספרים בינאריים (0 ו-1), כלומר במצבים "דלוק" ו"כבוי" או אמת ושקר. </li>
+
+<li>דיוק: האותות מוגבלים לרמות קבועות מראש, ולכן עמידים יותר לרעשים חשמליים. </li>
+
+  </ul>
+
+
+
+<strong>
+
+אלקטרוניקה תקבילית
+
+</strong>
+
+  <ul>
+
+<li>ייצוג אותות: האותות מיוצגים בצורת מתח או זרם משתנה באופן רציף, המשקף בצורה מדויקת את השינויים במידע המקורי.</li>
+
+<li>דיוק: מאפשר טיפול באותות עם רמות אין-סופיות תאורטית, ולכן שימור איכות גבוה של האות המקורי.</li>
+
+
+
+  </ul>
+</div>
+
+
+<div class="card">         
+ <h2>כללי אלגברה בוליאנית</h2>
+                <h3>אלגברת מיתוג</h3>
+
+
+<div class="idea-box">
+<p>
+<strong>אקסיומה:</strong> קיים משתנה מיתוג בעל שני ערכים 0 וְ- 1. 
+<br/>
+$$ x=1 ↔ x≠0 $$
+$$ x=0 ↔ x≠1 $$
+</p>
+</div>
+
+<div class="idea-box">
+<strong> אקסיומה אלגברת מיתוג:</strong> מערכת אלגברית של הקבוצה {1 , 0}  המכילה שתי בפועלות בינאריות (פעולות על שני משתנים או יותר)
+ופעולה אונרית (פעולה על משתנה אחד) אחת, בהמשך נראה שאפשר לשלב בין פעולות.
+ 
+</div>
+<ul>
+<li><strong>OR לוגי:</strong> תוצאתה "אמת" כאשר אחד האופרנדים שלה (או שניהם), הוא "אמת", וביתר המקרים תוצאתה "שקר".</li>
+<li><strong>AND לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "אמת", וביתר המקרים תוצאתה "שקר".</li>
+<li><strong>NOR לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "שקר", וביתר המקרים תוצאתה "שקר".</li>
+  </ul>
+
+<table border="1">
+  <caption>טבלת אמת לפעולות לוגיות</caption>
+  <thead>
+    <tr>
+      <th>B</th>
+      <th>A</th>
+      <th>A · B (AND)</th>
+      <th>A + B (OR)</th>
+      <th>(NOT) <br/> \(\bar{A}\) | 'A</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td rowspan="2">1 = \(\bar{0}\)</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+      <td rowspan="2">0 = \(\bar{1}\)</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+
+</p>
+
+<h3>הוכחה באינדוקציה שלמה</h3>
+
+<p>לאלגברה בוליאנית 7 תכונות בסיסיות שאותן נוכח בעזרת <strong>הוכחה באינדוקציה שלמה</strong> 
+<br/>
+שהיא שיטה להוכחת תכונות משופות המורכבת משני שלבים: 
+
+<li>שלב 1: הוכחה של מספר 1 (N).<br/>
+
+<li>שלב 2: שלב האינדוקציה: מוכיחים עבור N ועבור  N + 1.</li></p>
+
+<div class="idea-box">
+<p>
+
+בגלל שהקבוצה הבוליאנית מורכבת רק משני סימנים {1 , 0} , אפשר להוכיח הוכחה שלמה.
+
+</p>
+
+</div>
+
+<hr>
+<h3>תכונות בסיסיות</h3>
+
+<strong>1 (א'). אדישות</strong>
+
+<p>
+
+<li>$x + x = x$</li>
+
+<li>$x · x = x$</li>
+
+<li>$0 + 0 = 0$</li>
+
+<li>$1 + 1 = 1$</li>
+
+<li>$0 · 0 = 0$</li>
+
+<li>$1 · 1 = 1$</li>
+
+</p>
+
+
+
+<strong>1 (ב'). ערכים אדישים ושולטים</strong>
+
+<p>
+
+<li><strong>1 דומיננטי ב -   OR</strong> : $ x + 1 = 1$</li>
+
+<li><strong>0 דומיננטי ב  -AND</strong> : $ x · 0 = 0$</li>
+
+<li><strong>0 אדיש ב  -OR</strong>  : $ x + 0 = x$</li>
+
+<li><strong>1 אדיש ב  - AND </strong> : $ x · 1 = x$</li>
+
+</p>
+
+
+
+
+
+<strong>2. השלמה - ערך משלים לאדיש: </strong>
+
+<p>
+
+ערך משלים של משתנה מתבטא כך:
+
+<li>$x +\bar{x}= 1$</li>
+
+<li> $x · \bar{x} = 0$</li>
+
+(  $\bar{x}$ מייצג לי not(x)  )
+</p>
+
+
+
+
+
+
+
+<strong>3. קוגניטיביות חילופית (חוק החילוף): </strong>
+
+<p>
+
+מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
+
+<li>$x + y = y + x$</li>
+
+<li> $x · y = y · x$</li>
+
+</p>
+
+
+
+
+
+
+
+<strong>4. אסוציאטיביות קיבוצית (חוק הקיבוץ):</strong>
+
+<p>
+
+מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
+
+<li>$ (x + y) + z = x + (y + z)$</li>
+
+<li> $ (x · y) · z = x · (y · z)$</li>
+
+</p>
+
+
+
+
+
+<strong>5. דיסטרביוטיות פילוג (חוק הפילוג):</strong>
+
+<p>
+
+מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
+
+<li>$ x · (y + z) = x · y + x · z$</li>
+
+<li> $ x + y · z = (x + y) · (x + z)$</li>
+
+</p>
+
+
+
+
+
+<strong>6 (א'). עקרון הבליעה (Absorption Law):</strong>
+
+<p>
+
+מציין שהוספת איבר מסוים לתוצאה של פעולה על המשתנה אינה משנה את הערך.
+
+<br/>
+
+6(א.)
+
+<li>$x + x · y = x$</li>
+
+<li> $x · (x + y) = x$</li>
+
+6(ב.)
+
+<li>$x + \bar{x}· y = x + y$</li>
+
+<li> $x · (\bar{x} + y) = x · y$</li>
+
+</p>
+
+
+
+
+
+
+
+<strong>7. כלל דה מורגן:</strong>
+
+<p>
+
+מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
+
+<li>$ \overline{( x ∙ y )} =  \bar{x} +  \bar{y} $</li>
+
+<li> $  \overline{( x + y )} =  \bar{x} ∙  \bar{y}$</li>
+
+</p>
+<hr>
+<h3>עיקרון הדואליות</h3>
+<p>
+<strong>עקרון הדואליות באלגברה בוליאנית</strong>
+קובע שלכל זהות אלגברית בוליאנית קיימת זהות נוספת, הנקראת הדוּאָלית שלה, אשר מתקבלת על־ידי החלפה עקבית של:
+<ul>
+<li>פעולת AND (⋅) ב־OR (+)</li>
+<li>פעולת OR (+) ב־AND (⋅)</li>
+<li> הערך 0 ב־1, והערך 1 ב־0 </li>
+</ul>
+התוצאה היא זהות תקפה נוספת באלגברה הבוליאנית.
+<br>
+<strong>דוגמא #1 :</strong>
+נזכר בעיקרון 1ב' (ערכים עדישים ושולטים)
+<br>
+זהות לערך אדיש: 
+$A + 0 = A$
+<br>
+זהות הדוּאָלית שלה:
+$A ⋅ 1 = A$
+<br>
+
+זהות לערך שולט: 
+$A + 1 = 1$
+<br>
+זהות הדוּאָלית שלה:
+$A ⋅ 0 = 0$
+<br>
+<br>
+
+<strong>דוגמא #2 :</strong>
+לפי דיסטריבוטיביות פילוג (חוק הפילוג)
+<br>
+הנוסחה המקורית:
+$A ⋅ (B + C) = A⋅B + A⋅C$
+<br>
+הדוּאָל של החוק (על פי עקרון הדואליות):
+$A + (B ⋅ C) = (A + B) ⋅ (A + C)$
+
+<div class="idea-box">
+שימו לב שתכונות הזהויות נשארו זהות לפי ההגדרה שלנו
+<br>
+הדואליות לא אומרת שהנוסחה "שווה" למשהו אחר, אלא שיש לה גרסה הפוכה (עם הפעולות ההפוכות), שגם היא זהות נכונה.
+</div>
+
+</p>
+</div>
+</section>
+</main>
+
+<div id="notification-banner" class="notification-banner">פעולה זו אינה מורשית.</div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationBanner = document.getElementById('notification-banner');
+        let notificationTimeout;
+
+        function triggerWatermarks() {
+            const watermarkContainer = document.createElement('div');
+            watermarkContainer.style.position = 'fixed';
+            watermarkContainer.style.top = '0'; watermarkContainer.style.left = '0';
+            watermarkContainer.style.width = '100vw'; watermarkContainer.style.height = '100vh';
+            watermarkContainer.style.zIndex = '9999'; watermarkContainer.style.pointerEvents = 'none';
+            document.body.appendChild(watermarkContainer);
+            for (let i = 0; i < 15; i++) {
+                const watermark = document.createElement('div');
+                watermark.textContent = 'לירן חפציק';
+                watermark.classList.add('dynamic-watermark');
+                watermark.style.top = `${Math.random() * 100}vh`;
+                watermark.style.left = `${Math.random() * 100}vw`;
+                watermark.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 90 - 45}deg)`;
+                watermarkContainer.appendChild(watermark);
+            }
+            setTimeout(() => {
+                if (document.body.contains(watermarkContainer)) {
+                    document.body.removeChild(watermarkContainer);
+                }
+            }, 2500);
+        }
+
+        function showProtectionWarning() {
+            clearTimeout(notificationTimeout);
+            notificationBanner.classList.add('show');
+            notificationTimeout = setTimeout(() => {
+                notificationBanner.classList.remove('show');
+            }, 1500);
+            triggerWatermarks();
+        }
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showProtectionWarning();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const blockedCtrlKeys = ['KeyC', 'KeyA', 'KeyU', 'KeyS', 'KeyP', 'Keyk' ,'KeyV', 'KeyX'];
+            if (e.code === 'F12' || (e.ctrlKey && blockedCtrlKeys.includes(e.code)) || (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'i')) {
+                e.preventDefault();
+                showProtectionWarning();
+            }
+        });
+    });
+    </script>
+</body>
+</html>
