@@ -31,6 +31,7 @@
             --danger-color: #d9534f;
             --accent-green: #009B77;
             --font-family: 'Arial', sans-serif;
+            --border-radius: 8px; /* הוסף משתנה עבור פינות מעוגלות */
         }
         body {
             font-family: var(--font-family); margin: 0; padding: 0; line-height: 1.5; /* הגדלת ריווח שורות לקריאות */
@@ -43,6 +44,21 @@
       margin: auto;
       border-collapse: collapse;
       font-size: 1.1em;
+    }
+
+     .columns {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .section {
+      margin-bottom: 30px;
     }
 
     th, td {
@@ -64,8 +80,13 @@
 
 
         p { margin-bottom: 3px; /* ריווח גדול יותר לפסקאות */ }
-        .copyright{ color: white; font-size: 12px; text-align: right; margin-right: 15%; padding-bottom: 0%; }
-        .container { max-width: 1100px; /* רוחב מותאם למאמר */ margin: auto; overflow: hidden; padding: 0 20px; }
+        .copyright {
+            color: white;
+            font-size: 12px;
+            text-align: right;
+            margin: -10px 185px 0px 0;
+            padding-bottom: 0;
+        }        .container { max-width: 1100px; /* רוחב מותאם למאמר */ margin: auto; overflow: hidden; padding: 0 20px; }
         .dynamic-watermark { position: fixed; font-size: 2.5vw; color: #000000; opacity: 0; pointer-events: none; z-index: 9999; white-space: nowrap; transition: opacity 0.5s ease-in-out; animation: fadeInOut 2.5s ease-in-out; }
         @keyframes fadeInOut { 0% { opacity: 0; } 20% { opacity: 0.07; } 80% { opacity: 0.07; } 100% { opacity: 0; } }
         header { background: var(--dark-color); color: #fff; padding: 1rem 0; position: sticky; top: 0; z-index: 900; }
@@ -82,7 +103,7 @@
         h2 { color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px; margin-top: 20px; }
         h3 { color: var(--primary-color); margin-top: 30px; margin-bottom: 15px; }
         h4 { margin-bottom: 10px; color: var(--dark-color); }
-        .card { background: #fff; padding: 25px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .card { background: #fff; padding: 25px; margin-bottom: 25px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
         .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; border: none; cursor: pointer; transition: background-color 0.3s; }
         .btn:hover { background: #2c608a; }
         footer { background: var(--dark-color); color: #fff; text-align: center; padding: 1rem 0; margin-top: 2rem; }
@@ -97,22 +118,96 @@
         .article-image { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; background: #fff; }
         figure { margin: 25px 0; text-align: center;}
         figcaption { margin-top: 8px; font-size: 14px; color: #555; font-style: italic; }
+
+        /* --- סגנונות חדשים לכרטיסיות --- */
+        /* הסתר את כל התוכן של הכרטיסיות כברירת מחדל */
+        .article-content {
+            display: none;
+        }
+
+        /* הצג רק את התוכן של הכרטיסייה הפעילה */
+        .article-content.active {
+            display: block;
+        }
+
+        /* עיצוב בסיסי לכפתורים */
+        .article-select-btn {
+            background-color: #f1f1f1;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+            margin-right: 5px; /* רווח בין כפתורים */
+            border-radius: 5px 5px 0 0; /* פינות מעוגלות בחלק העליון */
+            outline: none; /* הסרת קו מתאר בעת לחיצה */
+        }
+
+        /* עיצוב לכפתור הפעיל */
+        .article-select-btn.active {
+            background-color: var(--primary-color); /* או כל צבע אחר שתבחר */
+            color: white;
+        }
+
+        /* עיצוב בעת מעבר עכבר */
+        .article-select-btn:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+        /* עיצוב כללי למיכל הכרטיסיות */
+        .article-tab-container {
+            border: 1px solid #ccc;
+            border-radius: var(--border-radius);
+            overflow: hidden; /* לוודא שהפינות המעוגלות עובדות */
+            margin-bottom: 20px; /* רווח מתחת למיכל */
+            /* max-width: 800px;  הוסר כדי להתאים ל-container הקיים */
+            /* margin-left: auto; margin-right: auto; */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* צל עדין */
+        }
+
+        .article-tabs {
+            display: flex; /* כדי שהכפתורים יהיו בשורה */
+            background-color: #e2e2e2;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            flex-wrap: wrap; /* כדי שהכפתורים יעברו שורה אם אין מספיק מקום */
+        }
+
+        .articles-content {
+            padding: 20px;
+            background-color: white;
+        }
+
+        /* עיצוב עבור כותרות התוכן בתוך הכרטיסיות */
+        .article-content h2 {
+            color: var(--primary-color);
+            margin-top: 0;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .article-content h3 {
+            color: var(--primary-color);
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container">
-            <h1><a href="../../../main.html#home" class="nav-link">לירן חפצ'יק - אתר הלימודים</a></h1>
+            <h1><a href="../../../index.html" class="nav-link">לירן חפצ'יק - אתר הלימודים</a></h1>
             <nav>
                 <ul>
-                    <li><a href="../../../main.html#home" class="nav-link">דף הבית</a></li>
-                    <li><a href="../../../main.html#about" class="nav-link">אודות</a></li>
-                    <li><a href="../../../main.html#tips" class="nav-link">טיפים ללמידה</a></li>
-                    <li><a href="../../../main.html#materials" class="nav-link active">חומרי לימוד</a></li>
-                    <li><a href="../../../main.html#projects" class="nav-link">פרויקטים</a></li>
-                    <li><a href="../../../main.html#exams" class="nav-link">מבחנים</a></li>
-                    <li><a href="../../../main.html#contact" class="nav-link">צור קשר</a></li>
+                    <li><a href="../../../index.html#home" class="nav-link">דף הבית</a></li>
+                    <li><a href="../../../index.html#about" class="nav-link">אודות</a></li>
+                    <li><a href="../../../index.html#tips" class="nav-link">טיפים ללמידה</a></li>
+                    <li><a href="../../../index.html#materials" class="nav-link active">חומרי לימוד</a></li>
+                    <li><a href="../../../index.html#projects" class="nav-link">פרויקטים</a></li>
+                    <li><a href="../../../index.html#exams" class="nav-link">מבחנים</a></li>
+                    <li><a href="../../../index.html#contact" class="nav-link">צור קשר</a></li>
                 </ul>
             </nav>
         </div>
@@ -123,341 +218,259 @@
 
     <main class="container">
         <section id="article-content" class="page-content active">
-             
-      
-
-    <div class="card">
-
-
-
-<h2>הבדלים בין אלקטרוניקה ספרתית לאלקטרוניקה תקבילית: </h2>
-
-
-
-<strong>
-
-אלקטרוניקה ספרתית:
-
-</strong>
-
-
-
-  <ul>
-
-<li>ייצוג אותות:  אות המוגדר בערכים בדידים בלבד. מספר הערכים אשר יכול לקבל האות סופי ומוגדר מראש.  
-
-בעולם האלקטרוניקה זה האותות מיוצגים בצורת מספרים בינאריים (0 ו-1), כלומר במצבים "דלוק" ו"כבוי" או אמת ושקר. </li>
-
-<li>דיוק: האותות מוגבלים לרמות קבועות מראש, ולכן עמידים יותר לרעשים חשמליים. </li>
-
-  </ul>
-
-
-
-<strong>
-
-אלקטרוניקה תקבילית
-
-</strong>
-
-  <ul>
-
-<li>ייצוג אותות: האותות מיוצגים בצורת מתח או זרם משתנה באופן רציף, המשקף בצורה מדויקת את השינויים במידע המקורי.</li>
-
-<li>דיוק: מאפשר טיפול באותות עם רמות אין-סופיות תאורטית, ולכן שימור איכות גבוה של האות המקורי.</li>
-
-
-
-  </ul>
-</div>
-
-
-<div class="card">         
- <h2>כללי אלגברה בוליאנית</h2>
-                <h3>אלגברת מיתוג</h3>
-
-
-<div class="idea-box">
-<p>
-<strong>אקסיומה:</strong> קיים משתנה מיתוג בעל שני ערכים 0 וְ- 1. 
-<br/>
-$$ x=1 ↔ x≠0 $$
-$$ x=0 ↔ x≠1 $$
-</p>
-</div>
-
-<div class="idea-box">
-<strong> אקסיומה אלגברת מיתוג:</strong> מערכת אלגברית של הקבוצה {1 , 0}  המכילה שתי בפועלות בינאריות (פעולות על שני משתנים או יותר)
-ופעולה אונרית (פעולה על משתנה אחד) אחת, בהמשך נראה שאפשר לשלב בין פעולות.
- 
-</div>
-<ul>
-<li><strong>OR לוגי:</strong> תוצאתה "אמת" כאשר אחד האופרנדים שלה (או שניהם), הוא "אמת", וביתר המקרים תוצאתה "שקר".</li>
-<li><strong>AND לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "אמת", וביתר המקרים תוצאתה "שקר".</li>
-<li><strong>NOR לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "שקר", וביתר המקרים תוצאתה "שקר".</li>
-  </ul>
-
-<table border="1">
-  <caption>טבלת אמת לפעולות לוגיות</caption>
-  <thead>
-    <tr>
-      <th>B</th>
-      <th>A</th>
-      <th>A · B (AND)</th>
-      <th>A + B (OR)</th>
-      <th>(NOT) <br/> \(\bar{A}\) | 'A</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td>0</td>
-      <td rowspan="2">1 = \(\bar{0}\)</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>0</td>
-      <td>0</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td>0</td>
-      <td>1</td>
-      <td>0</td>
-      <td>1</td>
-      <td rowspan="2">0 = \(\bar{1}\)</td>
-    </tr>
-    <tr>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-  </tbody>
-</table>
-
-
-</p>
-
-<h3>הוכחה באינדוקציה שלמה</h3>
-
-<p>לאלגברה בוליאנית 7 תכונות בסיסיות שאותן נוכח בעזרת <strong>הוכחה באינדוקציה שלמה</strong> 
-<br/>
-שהיא שיטה להוכחת תכונות משופות המורכבת משני שלבים: 
-
-<li>שלב 1: הוכחה של מספר 1 (N).<br/>
-
-<li>שלב 2: שלב האינדוקציה: מוכיחים עבור N ועבור  N + 1.</li></p>
-
-<div class="idea-box">
-<p>
-
-בגלל שהקבוצה הבוליאנית מורכבת רק משני סימנים {1 , 0} , אפשר להוכיח הוכחה שלמה.
-
-</p>
-
-</div>
-
-<hr>
-<h3>תכונות בסיסיות</h3>
-
-<strong>1 (א'). אדישות</strong>
-
-<p>
-
-<li>$x + x = x$</li>
-
-<li>$x · x = x$</li>
-
-<li>$0 + 0 = 0$</li>
-
-<li>$1 + 1 = 1$</li>
-
-<li>$0 · 0 = 0$</li>
-
-<li>$1 · 1 = 1$</li>
-
-</p>
-
-
-
-<strong>1 (ב'). ערכים אדישים ושולטים</strong>
-
-<p>
-
-<li><strong>1 דומיננטי ב -   OR</strong> : $ x + 1 = 1$</li>
-
-<li><strong>0 דומיננטי ב  -AND</strong> : $ x · 0 = 0$</li>
-
-<li><strong>0 אדיש ב  -OR</strong>  : $ x + 0 = x$</li>
-
-<li><strong>1 אדיש ב  - AND </strong> : $ x · 1 = x$</li>
-
-</p>
-
-
-
-
-
-<strong>2. השלמה - ערך משלים לאדיש: </strong>
-
-<p>
-
-ערך משלים של משתנה מתבטא כך:
-
-<li>$x +\bar{x}= 1$</li>
-
-<li> $x · \bar{x} = 0$</li>
-
-(  $\bar{x}$ מייצג לי not(x)  )
-</p>
-
-
-
-
-
-
-
-<strong>3. קוגניטיביות חילופית (חוק החילוף): </strong>
-
-<p>
-
-מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
-
-<li>$x + y = y + x$</li>
-
-<li> $x · y = y · x$</li>
-
-</p>
-
-
-
-
-
-
-
-<strong>4. אסוציאטיביות קיבוצית (חוק הקיבוץ):</strong>
-
-<p>
-
-מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
-
-<li>$ (x + y) + z = x + (y + z)$</li>
-
-<li> $ (x · y) · z = x · (y · z)$</li>
-
-</p>
-
-
-
-
-
-<strong>5. דיסטרביוטיות פילוג (חוק הפילוג):</strong>
-
-<p>
-
-מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
-
-<li>$ x · (y + z) = x · y + x · z$</li>
-
-<li> $ x + y · z = (x + y) · (x + z)$</li>
-
-</p>
-
-
-
-
-
-<strong>6 (א'). עקרון הבליעה (Absorption Law):</strong>
-
-<p>
-
-מציין שהוספת איבר מסוים לתוצאה של פעולה על המשתנה אינה משנה את הערך.
-
-<br/>
-
-6(א.)
-
-<li>$x + x · y = x$</li>
-
-<li> $x · (x + y) = x$</li>
-
-6(ב.)
-
-<li>$x + \bar{x}· y = x + y$</li>
-
-<li> $x · (\bar{x} + y) = x · y$</li>
-
-</p>
-
-
-
-
-
-
-
-<strong>7. כלל דה מורגן:</strong>
-
-<p>
-
-מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
-
-<li>$ \overline{( x ∙ y )} =  \bar{x} +  \bar{y} $</li>
-
-<li> $  \overline{( x + y )} =  \bar{x} ∙  \bar{y}$</li>
-
-</p>
-<hr>
-<h3>עיקרון הדואליות</h3>
-<p>
-<strong>עקרון הדואליות באלגברה בוליאנית</strong>
-קובע שלכל זהות אלגברית בוליאנית קיימת זהות נוספת, הנקראת הדוּאָלית שלה, אשר מתקבלת על־ידי החלפה עקבית של:
-<ul>
-<li>פעולת AND (⋅) ב־OR (+)</li>
-<li>פעולת OR (+) ב־AND (⋅)</li>
-<li> הערך 0 ב־1, והערך 1 ב־0 </li>
-</ul>
-התוצאה היא זהות תקפה נוספת באלגברה הבוליאנית.
-<br>
-<strong>דוגמא #1 :</strong>
-נזכר בעיקרון 1ב' (ערכים עדישים ושולטים)
-<br>
-זהות לערך אדיש: 
-$A + 0 = A$
-<br>
-זהות הדוּאָלית שלה:
-$A ⋅ 1 = A$
-<br>
-
-זהות לערך שולט: 
-$A + 1 = 1$
-<br>
-זהות הדוּאָלית שלה:
-$A ⋅ 0 = 0$
-<br>
-<br>
-
-<strong>דוגמא #2 :</strong>
-לפי דיסטריבוטיביות פילוג (חוק הפילוג)
-<br>
-הנוסחה המקורית:
-$A ⋅ (B + C) = A⋅B + A⋅C$
-<br>
-הדוּאָל של החוק (על פי עקרון הדואליות):
-$A + (B ⋅ C) = (A + B) ⋅ (A + C)$
-
-<div class="idea-box">
-שימו לב שתכונות הזהויות נשארו זהות לפי ההגדרה שלנו
-<br>
-הדואליות לא אומרת שהנוסחה "שווה" למשהו אחר, אלא שיש לה גרסה הפוכה (עם הפעולות ההפוכות), שגם היא זהות נכונה.
-</div>
-
-</p>
-</div>
-</section>
-</main>
+            <div class="article-tab-container">
+                <div class="article-tabs">
+                    <button class="article-select-btn active" data-article="digital-analog">אלקטרוניקה ספרתית ותקבילית</button>
+                    <button class="article-select-btn" data-article="boolean-algebra">אלגברה בוליאנית</button>
+                    </div>
+
+                <div class="articles-content">
+                    <div id="digital-analog" class="article-content active">
+                        <div class="card">
+                            <h2>הבדלים בין אלקטרוניקה ספרתית לאלקטרוניקה תקבילית: </h2>
+                            <strong>אלקטרוניקה ספרתית:</strong>
+                            <ul>
+                                <li>ייצוג אותות: אות המוגדר בערכים בדידים בלבד. מספר הערכים אשר יכול לקבל האות סופי ומוגדר מראש. בעולם האלקטרוניקה זה האותות מיוצגים בצורת מספרים בינאריים (0 ו-1), כלומר במצבים "דלוק" ו"כבוי" או אמת ושקר. </li>
+                                <li>דיוק: האותות מוגבלים לרמות קבועות מראש, ולכן עמידים יותר לרעשים חשמליים. </li>
+                            </ul>
+                            <strong>אלקטרוניקה תקבילית</strong>
+                            <ul>
+                                <li>ייצוג אותות: האותות מיוצגים בצורת מתח או זרם משתנה באופן רציף, המשקף בצורה מדויקת את השינויים במידע המקורי.</li>
+                                <li>דיוק: מאפשר טיפול באותות עם רמות אין-סופיות תאורטית, ולכן שימור איכות גבוה של האות המקורי.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div id="boolean-algebra" class="article-content">
+                        <div class="card">
+                            <h2>כללי אלגברה בוליאנית</h2>
+                            <h3>אלגברת מיתוג</h3>
+                            <div class="idea-box">
+                                <p>
+                                    <strong>אקסיומה:</strong> קיים משתנה מיתוג בעל שני ערכים 0 וְ- 1. 
+                                    <br/>
+                                    $$ x=1 ↔ x≠0 $$
+                                    $$ x=0 ↔ x≠1 $$
+                                </p>
+                            </div>
+                            <div class="idea-box">
+                                <strong> אקסיומה:</strong> אלגברת מיתוג היא מערכת אלגברית של הקבוצה {1 , 0} המכילה שתי בפעולות בינאריות (פעולות על שני משתנים או יותר)
+                                ופעולה אונרית (פעולה על משתנה אחד) אחת, בהמשך נראה שאפשר לשלב בין פעולות.
+                            </div>
+                            <ul>
+                                <li><strong>OR לוגי:</strong> תוצאתה "אמת" כאשר אחד האופרנדים שלה (או שניהם), הוא "אמת", וביתר המקרים תוצאתה "שקר".</li>
+                                <li><strong>AND לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "אמת", וביתר המקרים תוצאתה "שקר".</li>
+                                <li><strong>NOR לוגי: </strong> תוצאתה "אמת" כאשר שני האופרנדים שלה הם "שקר", וביתר המקרים תוצאתה "שקר".</li>
+                            </ul>
+                            <table border="1">
+                                <caption>טבלת אמת לפעולות לוגיות</caption>
+                                <thead>
+                                    <tr>
+                                        <th>B</th>
+                                        <th>A</th>
+                                        <th>A · B (AND)</th>
+                                        <th>A + B (OR)</th>
+                                        <th>(NOT) <br/> \(\bar{A}\) | 'A</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td rowspan="2">1 = \(\bar{0}\)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td>0</td>
+                                        <td>1</td>
+                                        <td rowspan="2">0 = \(\bar{1}\)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h3>הוכחה באינדוקציה שלמה</h3>
+                            <p>לאלגברה בוליאנית 7 תכונות בסיסיות שאותן נוכח בעזרת <strong>הוכחה באינדוקציה שלמה</strong> 
+                            <br/>
+                            שהיא שיטה להוכחת תכונות משופות המורכבת משני שלבים: 
+                            <li>שלב 1: הוכחה של מספר 1 (N).<br/>
+                            <li>שלב 2: שלב האינדוקציה: מוכיחים עבור N ועבור  N + 1.</li></p>
+                            <div class="idea-box">
+                                <p>
+                                    בגלל שהקבוצה הבוליאנית מורכבת רק משני סימנים {1 , 0} , אפשר להוכיח הוכחה שלמה.
+                                </p>
+                            </div>
+                            <hr>
+                            <div class="columns">
+                                <div class="column">  
+                                    <h3>תכונות בסיסיות</h3>
+                                    <strong>1 (א'). אדישות</strong>
+                                    <p>
+                                        <li>$x + x = x$</li>
+                                        <li>$x · x = x$</li>
+                                        <li>$0 + 0 = 0$</li>
+                                        <li>$1 + 1 = 1$</li>
+                                        <li>$0 · 0 = 0$</li>
+                                        <li>$1 · 1 = 1$</li>
+                                    </p>
+                                    <strong>1 (ב'). ערכים אדישים ושולטים</strong>
+                                    <p>
+                                        <li><strong>1 דומיננטי ב -   OR</strong> : $ x + 1 = 1$</li>
+                                        <li><strong>0 דומיננטי ב  -AND</strong> : $ x · 0 = 0$</li>
+                                        <li><strong>0 אדיש ב  -OR</strong>  : $ x + 0 = x$</li>
+                                        <li><strong>1 אדיש ב  - AND </strong> : $ x · 1 = x$</li>
+                                    </p>
+                                    <strong>2. השלמה - ערך משלים לאדיש: </strong>
+                                    <p>
+                                        ערך משלים של משתנה מתבטא כך:
+                                        <li>$x +\bar{x}= 1$</li>
+                                        <li> $x · \bar{x} = 0$</li>
+                                        (  $\bar{x}$ מייצג לי not(x)  )
+                                    </p>
+                                    <strong>3. קוגניטיביות חילופית (חוק החילוף): </strong>
+                                    <p>
+                                        מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
+                                        <li>$x + y = y + x$</li>
+                                        <li> $x · y = y · x$</li>
+                                    </p>
+                                </div>
+                                <div class="column">
+                                    <br><br><br>
+                                    <strong>4. אסוציאטיביות קיבוצית (חוק הקיבוץ):</strong>
+                                    <p>
+                                        מאפשרים להחליף בין האיברים בלי לשנות את התוצאה.
+                                        <li>$ (x + y) + z = x + (y + z)$</li>
+                                        <li> $ (x · y) · z = x · (y · z)$</li>
+                                    </p>
+                                    <strong>5. דיסטרביוטיות פילוג (חוק הפילוג):</strong>
+                                    <p>
+                                        מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
+                                        <li>$ x · (y + z) = x · y + x · z$</li>
+                                        <li> $ x + y · z = (x + y) · (x + z)$</li>
+                                    </p>
+                                    <strong>6 (א'). עקרון הבליעה (Absorption Law):</strong>
+                                    <p>
+                                        מציין שהוספת איבר מסוים לתוצאה של פעולה על המשתנה אינה משנה את הערך.
+                                        <br/>
+                                        6(א.)
+                                        <li>$x + x · y = x$</li>
+                                        <li> $x · (x + y) = x$</li>
+                                        6(ב.)
+                                        <li>$x + \bar{x}· y = x + y$</li>
+                                        <li> $x · (\bar{x} + y) = x · y$</li>
+                                    </p>
+                                    <strong>7. כלל דה מורגן:</strong>
+                                    <p>
+                                        מאפשר לפזר או לאחד איברים בין פעולות לוגיות שונות.
+                                        <li>$ \overline{x \cdot y} =  \bar{x} +  \bar{y} $</li>
+                                        <li> $  \overline{( x + y )} =  \overline{x \cdot y}$</li>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <h3>עיקרון הדואליות</h3>
+                            <p>
+                                <strong>עקרון הדואליות באלגברה בוליאנית</strong>
+                                קובע שלכל זהות אלגברית בוליאנית קיימת זהות נוספת, הנקראת הדוּאָלית שלה, אשר מתקבלת על־ידי החלפה עקבית של:
+                                <ul>
+                                    <li>פעולת AND (⋅) ב־OR (+)</li>
+                                    <li>פעולת OR (+) ב־AND (⋅)</li>
+                                    <li> הערך 0 ב־1, והערך 1 ב־0 </li>
+                                </ul>
+                                התוצאה היא זהות תקפה נוספת באלגברה הבוליאנית.
+                                <br>
+                                <strong>דוגמא #1 :</strong>
+                                נזכר בעיקרון 1ב' (ערכים עדישים ושולטים)
+                                <br>
+                                זהות לערך אדיש: 
+                                $ x+ 0 = x$
+                                <br>
+                                זהות הדוּאָלית שלה:
+                                $x ⋅ 1 = x$
+                                <br>
+                                זהות לערך שולט: 
+                                $x + 1 = 1$
+                                <br>
+                                זהות הדוּאָלית שלה:
+                                $x ⋅ 0 = 0$
+                                <br>
+                                <br>
+                                <strong>דוגמא #2 :</strong>
+                                לפי דיסטריבוטיביות פילוג (חוק הפילוג)
+                                <br>
+                                הנוסחה המקורית:
+                                $x ⋅ (y + z) = x⋅y + x⋅z$
+                                <br>
+                                הדוּאָל של החוק (על פי עקרון הדואליות):
+                                $x + (y ⋅ z) = (x + y) ⋅ (x + z)$
+                                <div class="idea-box">
+                                    שימו לב שתכונות הזהויות נשארו זהות לפי ההגדרה שלנו
+                                    <br>
+                                    הדואליות לא אומרת שהנוסחה "שווה" למשהו אחר, אלא שיש לה גרסה הפוכה (עם הפעולות ההפוכות), שגם היא זהות נכונה.
+                                </div>
+                                <strong>8. קונצנזוס:</strong>
+                                $$x \cdot y + \overline{x} \cdot z + y \cdot z = x \cdot y + \overline{x} \cdot z$$
+                                $$(x + y) \cdot  (\overline{x} + z) \cdot  (y + z) = (x + y) \cdot  (\overline{x} + z)$$
+                                <div class="idea-box">
+                                    <p><strong>חוק הקונצנזוס</strong> הוא כלי שימושי לצמצום ביטויים כאשר ישנם שלושה ביטויים, ושניים מהם מכילים משתנה והמשלים שלו, והמונח השלישי מכיל את שני המשתנים הנותרים.</p>
+                                </div>
+                                <strong>הוכחה לביטוי הראשון של חוק הקונצנזוס:</strong><br>
+                                (מצויינים העקרונות שהשתמשתי בהם ליד כל שורה)
+                                $$x \cdot y + \overline{x} \cdot z + y \cdot z $$ 
+                                $$= x \cdot y + \overline{x} \cdot z \cdot (\overline{x} + x) \text{ ; (א1)}$$
+                                $$= \color{#3776AB}\underline{x \cdot y} \color{black} + \color{#d9534f}\underline{\underline{\overline{x} \cdot z }} \color{black} + \color{#3776AB}\underline{x \cdot y \cdot z }\color{black} + \color{#d9534f}\underline{\underline{\overline{x} \cdot y \cdot z}}  \color{black} \text{ ; (4) }$$
+                                $$= x \cdot y \cdot(z + 1) + x \cdot y \cdot (z + 1) \text{ ; (ב1)}$$
+                                $$= \boxed{x \cdot y +  z + x \cdot y}$$                                                
+                            </p>
+                        </div>
+
+                        <div class="card">
+                            <h3>דוגמאות לצמצום ביטויים לוגיים:</h3>
+                            <p><strong>דוגמה 1:</strong> צמצמו את הביטוי $\overline{A}B + AB$</p>
+                            <p>פתרון:
+                            <br>$\overline{A}B + AB = B(\overline{A} + A)$ (חוק הדיסטריבוטיביות)
+                            <br>$= B \cdot 1$ (חוק המשלים: $A + \overline{A} = 1$)
+                            <br>$= B$ (חוק הזהות: $A \cdot 1 = A$)</p>
+
+                            <p><strong>דוגמה 2:</strong> צמצמו את הביטוי $A(A + B)$</p>
+                            <p>פתרון:
+                            <br>$x(x + y) = x \cdot x + x \cdot y$ (חוק הדיסטריבוטיביות)
+                            <br>$= x + AB$ (חוק האידמפוטנטיות: $x \cdot x = x$)
+                            <br>$= x$ (חוק הספיגה: $x + xy = x$)</p>
+
+                            <p><strong>דוגמה 3:</strong> צמצמו את הביטוי $(A + B)(\overline{A} + B)$</p>
+                            <p>פתרון:
+                            <br>$(A + B)(\overline{A} + B) = A\overline{A} + AB + \overline{A}B + BB$ (חוק הדיסטריבוטיביות)
+                            <br>$= 0 + AB + \overline{A}B + B$ (חוק המשלים: $A\overline{A} = 0$, חוק האידמפוטנטיות: $BB = B$)
+                            <br>$= B(A + \overline{A}) + B$ (חוק הדיסטריבוטיביות)
+                            <br>$= B \cdot 1 + B$ (חוק המשלים: $A + \overline{A} = 1$)
+                            <br>$= B + B$ (חוק הזהות: $B \cdot 1 = B$)
+                            <br>$= B$ (חוק האידמפוטנטיות: $B + B = B$)</p>
+
+                            <p><strong>דוגמה 4:</strong> צמצמו את הביטוי $\overline{A \cdot B + C}$</p>
+                            <p>פתרון:
+                            <br>$\overline{A \cdot B + C} = \overline{(A \cdot B)} \cdot \overline{C}$ (חוק דה-מורגן)
+                            <br>$= (\overline{A} + \overline{B}) \cdot \overline{C}$ (חוק דה-מורגן)
+                            <br>$= \overline{A}\overline{C} + \overline{B}\overline{C}$ (חוק הדיסטריבוטיביות)</p>
+                        </div>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </main>
 
 <div id="notification-banner" class="notification-banner">פעולה זו אינה מורשית.</div>
 
@@ -509,6 +522,30 @@ $A + (B ⋅ C) = (A + B) ⋅ (A + C)$
                 e.preventDefault();
                 showProtectionWarning();
             }
+        });
+
+        // --- קוד JavaScript לניהול כרטיסיות ---
+        const tabButtons = document.querySelectorAll('.article-select-btn');
+        const articleContents = document.querySelectorAll('.article-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // הסר את הקלאס 'active' מכל הכפתורים
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                // הוסף את הקלאס 'active' לכפתור שנלחץ
+                button.classList.add('active');
+
+                // הסתר את כל תכני הכרטיסיות
+                articleContents.forEach(content => content.classList.remove('active'));
+
+                // קבל את ה-ID של התוכן הרצוי מהמאפיין data-article
+                const targetArticleId = button.dataset.article;
+                // מצא את התוכן המתאים והצג אותו
+                const targetArticle = document.getElementById(targetArticleId);
+                if (targetArticle) {
+                    targetArticle.classList.add('active');
+                }
+            });
         });
     });
     </script>
