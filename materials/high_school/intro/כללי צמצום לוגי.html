@@ -396,7 +396,7 @@
                                 נזכר בעיקרון 1ב' (ערכים עדישים ושולטים)
                                 <br>
                                 זהות לערך אדיש: 
-                                $ x+ 0 = x$
+                                $ x + 0 = x$
                                 <br>
                                 זהות הדוּאָלית שלה:
                                 $x ⋅ 1 = x$
@@ -429,11 +429,51 @@
                                 </div>
                                 <strong>הוכחה לביטוי הראשון של חוק הקונצנזוס:</strong><br>
                                 (מצויינים העקרונות שהשתמשתי בהם ליד כל שורה)
-                                $$x \cdot y + \overline{x} \cdot z + y \cdot z $$ 
-                                $$= x \cdot y + \overline{x} \cdot z \cdot (\overline{x} + x) \text{ ; (א1)}$$
-                                $$= \color{#3776AB}\underline{x \cdot y} \color{black} + \color{#d9534f}\underline{\underline{\overline{x} \cdot z }} \color{black} + \color{#3776AB}\underline{x \cdot y \cdot z }\color{black} + \color{#d9534f}\underline{\underline{\overline{x} \cdot y \cdot z}}  \color{black} \text{ ; (4) }$$
-                                $$= x \cdot y \cdot(z + 1) + x \cdot y \cdot (z + 1) \text{ ; (ב1)}$$
-                                $$= \boxed{x \cdot y +  z + x \cdot y}$$                                                
+<div align="center" dir="rtl">
+  <table style="border-collapse: collapse; border: none;">
+    <tr>
+      <td style="padding: 8px; border: none;">
+        הביטוי המקורי
+      </td>
+      <td style="padding: 8px; border: none;">
+        $$x \cdot y + \overline{x} \cdot z + y \cdot z =$$
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: none;">
+        שימוש בעיקרון המשלים לעדיש (2)<br>כי כל כך לא נשנא את הביטוי \( a + \overline{a} = 1\)
+      </td>
+      <td style="padding: 8px; border: none;">
+        $$x = \cdot y + \overline{x} \cdot z + y \cdot z (\overline{x} + x) $$
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: none;">
+        פתיחת סוגריים (5)
+    </td>
+      <td style="padding: 8px; border: none;">
+        $$= \color{#3776AB}\underline{x \cdot y} + \color{#d9534f}\underline{\underline{\overline{x} \cdot z}} + \color{#3776AB}\underline{x \cdot y \cdot z} + \color{#d9534f}\underline{\underline{\overline{x} \cdot y \cdot z}} $$
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: none;">
+        קיבוץ איברים (4)
+      </td>
+      <td style="padding: 8px; border: none;">
+        $$= x \cdot y \cdot(z + 1) + \overline{x} \cdot z \cdot(y + 1) $$
+      </td>
+    </tr>
+    <tr>
+      <td style="padding: 8px; border: none;">
+        לפי עקרון א'1 ב'1  <br>פישוט בעזרת הזהויות \( a \cdot 1 = a \),‏ \( a + a = a \)
+      </td>
+      <td style="padding: 8px; border: none;">
+        $$= \boxed{x \cdot y + z + x \cdot y}$$
+      </td>
+    </tr>
+  </table>
+</div>
+                                              
                             </p>
                         </div>
 
